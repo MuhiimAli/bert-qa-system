@@ -24,6 +24,9 @@ class OrderedNQDataset(Dataset):
         """Load and process all examples from JSON file."""
         with open(data_path, 'r') as f:
             data = json.load(f)
+            # if len(data) > 50:
+            #     print(f"Limiting dataset from {len(data)} to 50 examples for debugging")
+            #     data = data[:50]
             
         features = []
         for item in data:
@@ -31,49 +34,65 @@ class OrderedNQDataset(Dataset):
             question = item['questions'][0]['input_text']  # Take first question
             context = item['contexts']
             
-            # Tokenize question and context
-            question_tokens = self.tokenizer.tokenize(question)
-            context_tokens = self.tokenizer.tokenize(context)
+            # Encode question and context together using encode_plus
+            encoded = self.tokenizer.encode_plus(
+                question,
+                context,
+                padding='max_length',
+                add_special_tokens=True,
+                truncation='only_second',
+                max_length=self.max_seq_length,
+                return_attention_mask=True,
+                return_token_type_ids=True,
+                return_tensors='pt'
+            )
             
-            # Truncate context if needed
-            max_context_length = self.max_seq_length - len(question_tokens) - 3  # [CLS], [SEP], [SEP]
-            context_tokens = context_tokens[:max_context_length]
+            # Squeeze tensors to remove batch dimension
+            input_ids = encoded['input_ids'].squeeze(0)
+            attention_mask = encoded['attention_mask'].squeeze(0)
+            token_type_ids = encoded['token_type_ids'].squeeze(0)
             
-            # Combine tokens
-            tokens = ['[CLS]'] + question_tokens + ['[SEP]'] + context_tokens + ['[SEP]']
-            input_ids = self.tokenizer.convert_tokens_to_ids(tokens)
+            # Get the positions of special tokens
+            input_ids_list = input_ids.tolist()
+            sep_positions = [i for i, token_id in enumerate(input_ids_list) if token_id == self.tokenizer.sep_token_id]
             
-            # Create attention mask and token type IDs
-            attention_mask = [1] * len(input_ids)
-            token_type_ids = [0] * (len(question_tokens) + 2) + [1] * (len(context_tokens) + 1)
+            # Verify the structure: [CLS] question [SEP] context [SEP]
+            if len(sep_positions) < 2:
+                print(f"Warning: Example {item['id']} doesn't have expected token structure")
+                continue
+                
+            question_end = sep_positions[0]  # Position of first [SEP]
             
-            # Pad if necessary
-            padding_length = self.max_seq_length - len(input_ids)
-            if padding_length > 0:
-                input_ids += [self.tokenizer.pad_token_id] * padding_length
-                attention_mask += [0] * padding_length
-                token_type_ids += [0] * padding_length
-            
-            # Determine answer type and positions
-            has_answer = len(item.get('answers', [])) > 0
-            if has_answer:
+            if len(item.get('answers', [])) > 0:
                 answer = item['answers'][0]
-                # Get token-based start and end positions
-                # Note: This is simplified - you'd need proper character to token mapping
-                offset = len(question_tokens) + 2  # Account for [CLS], question, and [SEP]
-                start_position = offset + answer['span_start']  # Simplified
-                end_position = offset + answer['span_end']    # Simplified
-                answer_type = 'short'
+                answer_type = answer['input_text']
+                
+                if answer_type == 'short':
+                    # Adjust answer spans to account for question tokens and special tokens
+                    context_start = question_end + 1
+                    start_position = context_start + answer['span_start']
+                    end_position = context_start + answer['span_end']
+                    
+                    # Ensure positions are within bounds
+                    if start_position >= self.max_seq_length:
+                        start_position = 0
+                        end_position = 0
+                        answer_type = 'no-answer'
+                    else:
+                        end_position = min(end_position, self.max_seq_length - 1)
+                else:
+                    start_position = 0
+                    end_position = 0
+                    answer_type = 'no-answer'
             else:
-                # No answer - point to [CLS] token
                 start_position = 0
                 end_position = 0
                 answer_type = 'no-answer'
             
             feature = {
-                'input_ids': input_ids,
-                'attention_mask': attention_mask,
-                'token_type_ids': token_type_ids,
+                'input_ids': input_ids.tolist(),
+                'attention_mask': attention_mask.tolist(),
+                'token_type_ids': token_type_ids.tolist(),
                 'start_position': start_position,
                 'end_position': end_position,
                 'answer_type': answer_type,
