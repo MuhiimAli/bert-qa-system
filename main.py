@@ -50,7 +50,7 @@ def parse_args():
     train_args.add_argument(
         "--batch_size", 
         type=int, 
-        default=2,
+        default=8,
         help="Training batch size"
     )
     train_args.add_argument(

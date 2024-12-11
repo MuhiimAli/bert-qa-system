@@ -28,6 +28,8 @@ class QAHead(torch.nn.Module):
         
         return start_logits, end_logits, type_logits
 
+
+
 def compute_metrics(total_true_pos: int, total_false_pos: int, 
                    total_false_neg: int) -> Tuple[float, float, float]:
     """
@@ -62,10 +64,14 @@ def evaluate_model(model: DistilBertModel, qa_head: QAHead, dataloader: DataLoad
     num_examples = 0
     exact_matches = 0
     total_questions = 0
+    num_batches = 0
+    
     
     with torch.no_grad():
         progress_bar = tqdm(dataloader, desc="Evaluating")
         for batch in progress_bar:
+            num_batches +=1 
+
             # Move batch to device
             batch = {k: v.to(device) if isinstance(v, torch.Tensor) else v 
                     for k, v in batch.items()}
@@ -117,17 +123,17 @@ def evaluate_model(model: DistilBertModel, qa_head: QAHead, dataloader: DataLoad
                     pred_start, pred_end = pred_end, pred_start
                 
                 # Handle no-answer case (true_type = 0)
-                if true_type == 0:
-                    if pred_type == 0:
-                        # Correctly predicted no-answer
-                        total_true_pos += 1
-                        exact_matches += 1
-                    else:
-                        # Predicted span when should be no-answer
-                        pred_length = pred_end - pred_start + 1
-                        total_false_pos += pred_length
-                        total_false_neg += 1
-                    continue
+                # if true_type == 0:
+                #     if pred_type == 0:
+                #         # Correctly predicted no-answer
+                #         total_true_pos += 1
+                #         exact_matches += 1
+                #     else:
+                #         # Predicted span when should be no-answer
+                #         pred_length = pred_end - pred_start + 1
+                #         total_false_pos += pred_length
+                #         total_false_neg += 1
+                #     continue
                 
                 # Handle answerable case (true_type = 1)
                 # Get the actual tokens for predicted and true spans
@@ -165,7 +171,7 @@ def evaluate_model(model: DistilBertModel, qa_head: QAHead, dataloader: DataLoad
             exact_match = exact_matches / total_questions if total_questions > 0 else 0
             
             progress_bar.set_description(
-                f"Loss: {total_loss/num_examples:.4f}, F1: {f1:.4f}, EM: {exact_match:.4f}"
+                f"Loss: {total_loss/num_batches:.4f}, F1: {f1:.4f}, EM: {exact_match:.4f}"
             )
     
     # Calculate final metrics
@@ -174,7 +180,7 @@ def evaluate_model(model: DistilBertModel, qa_head: QAHead, dataloader: DataLoad
     exact_match = exact_matches / total_questions if total_questions > 0 else 0
     
     return {
-        'loss': total_loss / num_examples,
+        'loss': total_loss / num_batches,
         'precision': precision,
         'recall': recall,
         'f1': f1,
@@ -279,15 +285,15 @@ def train(args, data, tokenizer):
         print(f"\nEpoch {epoch + 1}/{args.num_epochs}")
         
         # Train
-        # train_loss = train_one_epoch(
-        #     model=model,
-        #     qa_head=qa_head,
-        #     dataloader=data['train'].dataloader,
-        #     criterion=criterion,
-        #     optimizer=optimizer,
-        #     scheduler=scheduler,
-        #     device=device
-        # )
+        train_loss = train_one_epoch(
+            model=model,
+            qa_head=qa_head,
+            dataloader=data['train'].dataloader,
+            criterion=criterion,
+            optimizer=optimizer,
+            scheduler=scheduler,
+            device=device
+        )
         
         # Evaluate
         eval_metrics = evaluate_model(
@@ -301,7 +307,7 @@ def train(args, data, tokenizer):
         
         # Print metrics
         print(f"\nResults:")
-        # print(f"Train Loss: {train_loss:.4f}")
+        print(f"Train Loss: {train_loss:.4f}")
         print(f"Val Loss: {eval_metrics['loss']:.4f}")
         print(f"Precision: {eval_metrics['precision']:.4f}")
         print(f"Recall: {eval_metrics['recall']:.4f}")

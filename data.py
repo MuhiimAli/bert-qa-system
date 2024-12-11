@@ -24,9 +24,7 @@ class OrderedNQDataset(Dataset):
         """Load and process all examples from JSON file."""
         with open(data_path, 'r') as f:
             data = json.load(f)
-            # if len(data) > 50:
-            #     print(f"Limiting dataset from {len(data)} to 50 examples for debugging")
-            #     data = data[:50]
+            data = data[:200]
             
         features = []
         for item in data:
@@ -52,28 +50,30 @@ class OrderedNQDataset(Dataset):
             attention_mask = encoded['attention_mask'].squeeze(0)
             token_type_ids = encoded['token_type_ids'].squeeze(0)
             
-            # Get the positions of special tokens
-            input_ids_list = input_ids.tolist()
-            sep_positions = [i for i, token_id in enumerate(input_ids_list) if token_id == self.tokenizer.sep_token_id]
-            
-            # Verify the structure: [CLS] question [SEP] context [SEP]
-            if len(sep_positions) < 2:
-                print(f"Warning: Example {item['id']} doesn't have expected token structure")
-                continue
-                
-            question_end = sep_positions[0]  # Position of first [SEP]
-            
             if len(item.get('answers', [])) > 0:
                 answer = item['answers'][0]
                 answer_type = answer['input_text']
-                
+            
                 if answer_type == 'short':
-                    # Adjust answer spans to account for question tokens and special tokens
-                    context_start = question_end + 1
-                    start_position = context_start + answer['span_start']
-                    end_position = context_start + answer['span_end']
+                    # Get the context text up to the answer start
+                    context_before_answer = context[:answer['span_start']]
                     
-                    # Ensure positions are within bounds
+                    # Tokenize the context before answer to get offset
+                    context_before_tokens = self.tokenizer.encode(context_before_answer, add_special_tokens=False)
+                    question_tokenized = self.tokenizer.encode(question, add_special_tokens=False)
+                    
+                    # The answer start position will be:
+                    # [CLS] + question tokens + [SEP] + context_before tokens
+                    start_position = 1 + len(question_tokenized) + 1 + len(context_before_tokens)
+                    
+                    # Get the answer text
+                    answer_text = context[answer['span_start']:answer['span_end']]
+                    
+                    # Get number of tokens in answer
+                    answer_tokens = self.tokenizer.encode(answer_text, add_special_tokens=False)
+                    end_position = start_position + len(answer_tokens) - 1
+            
+                    # Ensure positions are within bounds. Just treat it as no_answer example
                     if start_position >= self.max_seq_length:
                         start_position = 0
                         end_position = 0
@@ -84,10 +84,6 @@ class OrderedNQDataset(Dataset):
                     start_position = 0
                     end_position = 0
                     answer_type = 'no-answer'
-            else:
-                start_position = 0
-                end_position = 0
-                answer_type = 'no-answer'
             
             feature = {
                 'input_ids': input_ids.tolist(),
