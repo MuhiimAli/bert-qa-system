@@ -24,83 +24,82 @@ class OrderedNQDataset(Dataset):
         """Load and process all examples from JSON file."""
         with open(data_path, 'r') as f:
             data = json.load(f)
-            data = data[:200]
             
         features = []
         for item in data:
-            # Process each example
-            question = item['questions'][0]['input_text']  # Take first question
+            question = item['questions'][0]['input_text']
             context = item['contexts']
             
-            # Encode question and context together using encode_plus
-            encoded = self.tokenizer.encode_plus(
-                question,
-                context,
-                padding='max_length',
-                add_special_tokens=True,
-                truncation='only_second',
-                max_length=self.max_seq_length,
-                return_attention_mask=True,
-                return_token_type_ids=True,
-                return_tensors='pt'
-            )
+            # Tokenize question first to calculate space for context
+            question_tokens = self.tokenizer.tokenize(question)
+            max_context_length = self.max_seq_length - len(question_tokens) - 3  # [CLS], [SEP], [SEP]
             
-            # Squeeze tensors to remove batch dimension
-            input_ids = encoded['input_ids'].squeeze(0)
-            attention_mask = encoded['attention_mask'].squeeze(0)
-            token_type_ids = encoded['token_type_ids'].squeeze(0)
+            start_position = 0
+            end_position = 0
+            answer_type = 0  # Default to no_answer (0)
             
             if len(item.get('answers', [])) > 0:
                 answer = item['answers'][0]
-                answer_type = answer['input_text']
-            
-                if answer_type == 'short':
-                    # Get the context text up to the answer start
-                    context_before_answer = context[:answer['span_start']]
-                    
-                    # Tokenize the context before answer to get offset
-                    context_before_tokens = self.tokenizer.encode(context_before_answer, add_special_tokens=False)
-                    question_tokenized = self.tokenizer.encode(question, add_special_tokens=False)
-                    
-                    # The answer start position will be:
-                    # [CLS] + question tokens + [SEP] + context_before tokens
-                    start_position = 1 + len(question_tokenized) + 1 + len(context_before_tokens)
-                    
-                    # Get the answer text
+                answer_type = 1 if answer['input_text'] == 'short' else 0  # 1 for short, 0 for no_answer
+                
+                if answer['input_text'] == 'short':
+                    # Get the answer text and tokenize
                     answer_text = context[answer['span_start']:answer['span_end']]
                     
-                    # Get number of tokens in answer
-                    answer_tokens = self.tokenizer.encode(answer_text, add_special_tokens=False)
+                    # Get context before answer and tokenize
+                    context_before = context[:answer['span_start']]
+                    context_before_tokens = self.tokenizer.tokenize(context_before)
+                    
+                    # Get answer tokens
+                    answer_tokens = self.tokenizer.tokenize(answer_text)
+                    
+                    # Calculate positions including special tokens
+                    # [CLS] question [SEP] context [SEP]
+                    start_position = 1 + len(question_tokens) + 1 + len(context_before_tokens)
                     end_position = start_position + len(answer_tokens) - 1
-            
-                    # Ensure positions are within bounds. Just treat it as no_answer example
-                    if start_position >= self.max_seq_length:
+                    
+                    # Ensure positions are within sequence length
+                    if end_position >= self.max_seq_length:
                         start_position = 0
                         end_position = 0
-                        answer_type = 'no-answer'
-                    else:
-                        end_position = min(end_position, self.max_seq_length - 1)
-                else:
+                        answer_type = 0 
+                else: 
                     start_position = 0
                     end_position = 0
-                    answer_type = 'no-answer'
+            
+            # Encode full sequence
+            encoded = self.tokenizer(
+                text=question,
+                text_pair=context,
+                padding='max_length',
+                truncation='only_second',
+                max_length=self.max_seq_length,
+                return_tensors=None
+            )
             
             feature = {
-                'input_ids': input_ids.tolist(),
-                'attention_mask': attention_mask.tolist(),
-                'token_type_ids': token_type_ids.tolist(),
+                'input_ids': encoded['input_ids'],
+                'attention_mask': encoded['attention_mask'],
                 'start_position': start_position,
                 'end_position': end_position,
                 'answer_type': answer_type,
                 'example_id': item['id']
             }
-            features.append(feature)
             
+            # Verify positions are valid
+            if start_position >= self.max_seq_length or end_position >= self.max_seq_length:
+                start_position = 0
+                end_position = 0
+                feature['answer_type'] = 0
+                feature['start_position'] = start_position
+                feature['end_position'] = end_position
+            
+            features.append(feature)
+        
         return features
-    
     def __len__(self) -> int:
-        return len(self.features)
-    
+            return len(self.features)
+
     def __getitem__(self, idx: int) -> Dict[str, torch.Tensor]:
         """Get a single instance."""
         feature = self.features[idx]
@@ -108,12 +107,12 @@ class OrderedNQDataset(Dataset):
         return {
             'input_ids': torch.tensor(feature['input_ids'], dtype=torch.long),
             'attention_mask': torch.tensor(feature['attention_mask'], dtype=torch.long),
-            'token_type_ids': torch.tensor(feature['token_type_ids'], dtype=torch.long),
             'start_position': torch.tensor(feature['start_position'], dtype=torch.long),
             'end_position': torch.tensor(feature['end_position'], dtype=torch.long),
-            'answer_type': feature['answer_type'],
+            'answer_type': torch.tensor(feature['answer_type'], dtype=torch.long),
             'example_id': feature['example_id']
         }
+        
 @dataclass
 class DataInfo:
     """Container for dataloader and sampler."""
@@ -139,7 +138,7 @@ def get_qa_dataset(
     # Setup sampler for distributed training
     # sampler = DistributedSampler(dataset) if args.distributed and is_training else None
     sampler = None
-    shuffle = is_training and sampler is None
+    shuffle = is_training
     
     # Create dataloader
     dataloader = DataLoader(

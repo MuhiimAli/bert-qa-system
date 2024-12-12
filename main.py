@@ -68,7 +68,7 @@ def parse_args():
     train_args.add_argument(
         "--num_epochs", 
         type=int, 
-        default=3,
+        default=7,
         help="Number of training epochs"
     )
     train_args.add_argument(
@@ -185,7 +185,7 @@ def main():
     
     # Train model
     print("Starting training...")
-    model, qa_head = train(args, data, tokenizer)
+    model = train(args, data, tokenizer)
 
 
 if __name__ == "__main__":

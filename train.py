@@ -10,13 +10,26 @@ from tqdm.auto import tqdm
 from typing import Dict, List, Tuple
 from loss import NQLoss
 
-class QAHead(torch.nn.Module):
-    def __init__(self, hidden_size):
-        super().__init__()
-        self.qa_outputs = torch.nn.Linear(hidden_size, 2)  # 2 for start/end
-        self.qa_type = torch.nn.Linear(hidden_size, 2)     # 2 for no-answer/short
-
-    def forward(self, hidden_states):
+class DistilBertForQA(DistilBertModel):
+    def __init__(self, config):
+        super().__init__(config)
+        
+        # QA output layers
+        self.qa_outputs = torch.nn.Linear(config.hidden_size, 2)  # 2 for start/end
+        self.qa_type = torch.nn.Linear(config.hidden_size, 2)     # 2 for no-answer/short
+        
+        # Initialize weights
+        self.init_weights()
+        
+    def forward(self, input_ids, attention_mask=None):
+        # Get base model outputs
+        outputs = super().forward(
+            input_ids=input_ids,
+            attention_mask=attention_mask
+        )
+        
+        hidden_states = outputs.last_hidden_state
+        
         # Get logits for start/end
         span_logits = self.qa_outputs(hidden_states)
         start_logits, end_logits = span_logits.split(1, dim=-1)
@@ -49,29 +62,27 @@ def compute_metrics(total_true_pos: int, total_false_pos: int,
     
     return precision, recall, f1
 
-def evaluate_model(model: DistilBertModel, qa_head: QAHead, dataloader: DataLoader, 
+def evaluate_model(model: DistilBertModel, dataloader: DataLoader, 
                   criterion: NQLoss, tokenizer, device: str) -> Dict:
     """
-    Evaluate the model using token-based metrics, properly handling no-answer cases.
+    Evaluate the model using token-based metrics, properly handling no-answer cases
+    and counting token occurrences correctly.
     """
     model.eval()
-    qa_head.eval()
     
     total_loss = 0
     total_true_pos = 0
     total_false_pos = 0
     total_false_neg = 0
-    num_examples = 0
+    num_batches = 0
     exact_matches = 0
     total_questions = 0
-    num_batches = 0
-    
     
     with torch.no_grad():
         progress_bar = tqdm(dataloader, desc="Evaluating")
         for batch in progress_bar:
-            num_batches +=1 
-
+            num_batches += 1
+            
             # Move batch to device
             batch = {k: v.to(device) if isinstance(v, torch.Tensor) else v 
                     for k, v in batch.items()}
@@ -82,14 +93,7 @@ def evaluate_model(model: DistilBertModel, qa_head: QAHead, dataloader: DataLoad
                 attention_mask=batch['attention_mask']
             )
             
-            start_logits, end_logits, type_logits = qa_head(outputs.last_hidden_state)
-            
-            # Convert answer types to tensor
-            answer_types = torch.tensor(
-                [1 if x == 'short' else 0 for x in batch['answer_type']],
-                dtype=torch.long,
-                device=device
-            )
+            start_logits, end_logits, type_logits = outputs
             
             # Calculate loss
             loss = criterion(
@@ -98,7 +102,7 @@ def evaluate_model(model: DistilBertModel, qa_head: QAHead, dataloader: DataLoad
                 type_logits,
                 batch['start_position'],
                 batch['end_position'],
-                answer_types
+                batch['answer_type']
             )
             
             # Get predictions
@@ -109,53 +113,40 @@ def evaluate_model(model: DistilBertModel, qa_head: QAHead, dataloader: DataLoad
             # Calculate metrics for each example
             for i in range(len(batch['input_ids'])):
                 total_questions += 1
-                pred_type = type_preds[i].item()
-                true_type = answer_types[i].item()
                 
-                # Get spans
+                # Get predicted and true spans
                 pred_start = start_preds[i].item()
                 pred_end = end_preds[i].item()
                 true_start = batch['start_position'][i].item()
                 true_end = batch['end_position'][i].item()
                 
-                # Fix malformed prediction spans
+                # Skip invalid predictions where end comes before start
                 if pred_end < pred_start:
-                    pred_start, pred_end = pred_end, pred_start
+                    continue
                 
-                # Handle no-answer case (true_type = 0)
-                # if true_type == 0:
-                #     if pred_type == 0:
-                #         # Correctly predicted no-answer
-                #         total_true_pos += 1
-                #         exact_matches += 1
-                #     else:
-                #         # Predicted span when should be no-answer
-                #         pred_length = pred_end - pred_start + 1
-                #         total_false_pos += pred_length
-                #         total_false_neg += 1
-                #     continue
-                
-                # Handle answerable case (true_type = 1)
-                # Get the actual tokens for predicted and true spans
+                # Get token IDs for both spans
                 input_ids = batch['input_ids'][i]
                 
-                # Get tokens for both spans
-                pred_tokens = set(input_ids[pred_start:pred_end + 1].tolist())
-                true_tokens = set(input_ids[true_start:true_end + 1].tolist())
+                # Convert spans to token ID counts (using Counter for proper frequency tracking)
+                from collections import Counter
                 
-                # Remove special tokens and padding
-                special_tokens = {tokenizer.pad_token_id, tokenizer.cls_token_id, 
-                               tokenizer.sep_token_id, tokenizer.unk_token_id}
-                pred_tokens = pred_tokens - special_tokens
-                true_tokens = true_tokens - special_tokens
+                pred_tokens = Counter(input_ids[pred_start:pred_end + 1].tolist())
+                true_tokens = Counter(input_ids[true_start:true_end + 1].tolist())
                 
-                # Calculate token-based metrics
-                true_pos = len(pred_tokens.intersection(true_tokens))
-                false_pos = len(pred_tokens - true_tokens)
-                false_neg = len(true_tokens - pred_tokens)
+                # Remove special tokens
+                # special_tokens = {tokenizer.pad_token_id, tokenizer.cls_token_id, 
+                #                tokenizer.sep_token_id, tokenizer.unk_token_id}
+                # for token in special_tokens:
+                #     pred_tokens[token] = 0
+                #     true_tokens[token] = 0
                 
-                # Check for exact match (same tokens and type)
-                if (pred_type == true_type and pred_tokens == true_tokens):
+                # Calculate overlap considering token frequencies
+                true_pos = sum((pred_tokens & true_tokens).values())  # Intersection with frequencies
+                false_pos = sum((pred_tokens - true_tokens).values())  # Tokens over-predicted
+                false_neg = sum((true_tokens - pred_tokens).values())  # Tokens under-predicted
+                
+                # Check for exact match (both token IDs and their frequencies must match)
+                if pred_tokens == true_tokens:
                     exact_matches += 1
                 
                 total_true_pos += true_pos
@@ -163,9 +154,8 @@ def evaluate_model(model: DistilBertModel, qa_head: QAHead, dataloader: DataLoad
                 total_false_neg += false_neg
             
             total_loss += loss.item()
-            num_examples += len(batch['input_ids'])
             
-            # Update progress bar
+            # Update progress
             precision, recall, f1 = compute_metrics(
                 total_true_pos, total_false_pos, total_false_neg)
             exact_match = exact_matches / total_questions if total_questions > 0 else 0
@@ -174,7 +164,6 @@ def evaluate_model(model: DistilBertModel, qa_head: QAHead, dataloader: DataLoad
                 f"Loss: {total_loss/num_batches:.4f}, F1: {f1:.4f}, EM: {exact_match:.4f}"
             )
     
-    # Calculate final metrics
     precision, recall, f1 = compute_metrics(
         total_true_pos, total_false_pos, total_false_neg)
     exact_match = exact_matches / total_questions if total_questions > 0 else 0
@@ -192,10 +181,9 @@ def evaluate_model(model: DistilBertModel, qa_head: QAHead, dataloader: DataLoad
         'exact_matches': exact_matches
     }
 
-def train_one_epoch(model: DistilBertModel, qa_head: QAHead, dataloader: DataLoader,
+def train_one_epoch(model: DistilBertModel,dataloader: DataLoader,
                     criterion: NQLoss, optimizer: AdamW, scheduler, device: str) -> float:
     model.train()
-    qa_head.train()
     
     total_loss = 0
     num_batches = 0
@@ -214,14 +202,10 @@ def train_one_epoch(model: DistilBertModel, qa_head: QAHead, dataloader: DataLoa
             attention_mask=batch['attention_mask']
         )
         
-        start_logits, end_logits, type_logits = qa_head(outputs.last_hidden_state)
+        start_logits, end_logits, type_logits = outputs
         
         # Convert string answer types to tensor and ensure it's on the right device
-        answer_types = torch.tensor(
-            [1 if x == 'short' else 0 for x in batch['answer_type']],
-            dtype=torch.long,  # Make sure dtype matches loss expectation
-            device=device
-        )
+        answer_types = batch['answer_type']
         # Ensure positions are within valid range
         max_len = start_logits.size(1)
         start_positions = batch['start_position'].clamp(0, max_len - 1)
@@ -240,7 +224,6 @@ def train_one_epoch(model: DistilBertModel, qa_head: QAHead, dataloader: DataLoa
         # Backward pass
         loss.backward()
         torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0)
-        torch.nn.utils.clip_grad_norm_(qa_head.parameters(), 1.0)
         
         # Update weights
         optimizer.step()
@@ -261,15 +244,14 @@ def train(args, data, tokenizer):
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     
     # Initialize model components
-    model = DistilBertModel.from_pretrained('distilbert-base-uncased').to(device)
-    qa_head = QAHead(model.config.hidden_size).to(device)
+    # Initialize model
+    model = DistilBertForQA.from_pretrained('distilbert-base-uncased').to(device)
+
+    # Setup optimizer (simpler now)
+    optimizer = AdamW(model.parameters(), lr=args.learning_rate)
+    # qa_head = QAHead(model.config.hidden_size).to(device)
     criterion = NQLoss()
     
-    # Setup optimizer
-    optimizer = AdamW(
-        list(model.parameters()) + list(qa_head.parameters()),
-        lr=args.learning_rate
-    )
     
     # Setup scheduler
     total_steps = len(data['train'].dataloader) * args.num_epochs
@@ -287,7 +269,6 @@ def train(args, data, tokenizer):
         # Train
         train_loss = train_one_epoch(
             model=model,
-            qa_head=qa_head,
             dataloader=data['train'].dataloader,
             criterion=criterion,
             optimizer=optimizer,
@@ -298,7 +279,6 @@ def train(args, data, tokenizer):
         # Evaluate
         eval_metrics = evaluate_model(
             model=model,
-            qa_head=qa_head,
             dataloader=data['eval'].dataloader,
             criterion=criterion,
             tokenizer=tokenizer,
@@ -314,4 +294,4 @@ def train(args, data, tokenizer):
         print(f"F1: {eval_metrics['f1']:.4f}")
         
     
-    return model, qa_head
+    return model
