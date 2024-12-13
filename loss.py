@@ -3,13 +3,6 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-import torch
-import torch.nn as nn
-import torch.nn.functional as F
-
-import torch
-import torch.nn as nn
-import torch.nn.functional as F
 
 class NQLoss(nn.Module):  # Inherit from nn.Module
     def __init__(self):

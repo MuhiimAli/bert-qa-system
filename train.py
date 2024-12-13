@@ -3,16 +3,22 @@ from torch.utils.data import DataLoader
 from transformers import (
     DistilBertModel,
     DistilBertTokenizer,
-    AdamW,
     get_linear_schedule_with_warmup
 )
+from torch.optim import AdamW 
 from tqdm.auto import tqdm
 from typing import Dict, List, Tuple
 from loss import NQLoss
+from collections import Counter
+import torch.nn as nn
+import wandb
 
 class DistilBertForQA(DistilBertModel):
     def __init__(self, config):
         super().__init__(config)
+        
+        # Add dropout
+        self.dropout = nn.Dropout(0.1)
         
         # QA output layers
         self.qa_outputs = torch.nn.Linear(config.hidden_size, 2)  # 2 for start/end
@@ -29,6 +35,9 @@ class DistilBertForQA(DistilBertModel):
         )
         
         hidden_states = outputs.last_hidden_state
+        
+        # Apply dropout to hidden states
+        hidden_states = self.dropout(hidden_states)
         
         # Get logits for start/end
         span_logits = self.qa_outputs(hidden_states)
@@ -117,6 +126,9 @@ def evaluate_model(model: DistilBertModel, dataloader: DataLoader,
                 # Get predicted and true spans
                 pred_start = start_preds[i].item()
                 pred_end = end_preds[i].item()
+                # pred_end = max(pred_start, pred_end)
+           
+
                 true_start = batch['start_position'][i].item()
                 true_end = batch['end_position'][i].item()
                 
@@ -128,17 +140,11 @@ def evaluate_model(model: DistilBertModel, dataloader: DataLoader,
                 input_ids = batch['input_ids'][i]
                 
                 # Convert spans to token ID counts (using Counter for proper frequency tracking)
-                from collections import Counter
+                
                 
                 pred_tokens = Counter(input_ids[pred_start:pred_end + 1].tolist())
                 true_tokens = Counter(input_ids[true_start:true_end + 1].tolist())
                 
-                # Remove special tokens
-                # special_tokens = {tokenizer.pad_token_id, tokenizer.cls_token_id, 
-                #                tokenizer.sep_token_id, tokenizer.unk_token_id}
-                # for token in special_tokens:
-                #     pred_tokens[token] = 0
-                #     true_tokens[token] = 0
                 
                 # Calculate overlap considering token frequencies
                 true_pos = sum((pred_tokens & true_tokens).values())  # Intersection with frequencies
@@ -206,18 +212,14 @@ def train_one_epoch(model: DistilBertModel,dataloader: DataLoader,
         
         # Convert string answer types to tensor and ensure it's on the right device
         answer_types = batch['answer_type']
-        # Ensure positions are within valid range
-        max_len = start_logits.size(1)
-        start_positions = batch['start_position'].clamp(0, max_len - 1)
-        end_positions = batch['end_position'].clamp(0, max_len - 1)
         
         # Calculate loss
         loss = criterion(
             start_logits,  # (batch_size, seq_len)
             end_logits,    # (batch_size, seq_len)
             type_logits,   # (batch_size, 2)
-            start_positions,  # (batch_size,)
-            end_positions,    # (batch_size,)
+            batch['start_position'],  # (batch_size,)
+            batch['end_position'],    # (batch_size,)
             answer_types      # (batch_size,)
         )
         
@@ -239,19 +241,14 @@ def train_one_epoch(model: DistilBertModel,dataloader: DataLoader,
     
     return total_loss / num_batches
 
-def train(args, data, tokenizer):
-    """Main training loop."""
+def train(args, data, tokenizer, use_wandb=False):
+    """Main training loop with optional WandB logging."""
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     
     # Initialize model components
-    # Initialize model
     model = DistilBertForQA.from_pretrained('distilbert-base-uncased').to(device)
-
-    # Setup optimizer (simpler now)
-    optimizer = AdamW(model.parameters(), lr=args.learning_rate)
-    # qa_head = QAHead(model.config.hidden_size).to(device)
+    optimizer = AdamW(model.parameters(), lr=args.learning_rate, weight_decay=args.weight_decay)
     criterion = NQLoss()
-    
     
     # Setup scheduler
     total_steps = len(data['train'].dataloader) * args.num_epochs
@@ -293,5 +290,16 @@ def train(args, data, tokenizer):
         print(f"Recall: {eval_metrics['recall']:.4f}")
         print(f"F1: {eval_metrics['f1']:.4f}")
         
+        
+        if use_wandb:
+            wandb.log({
+                'epoch': epoch + 1,
+                'train_loss': train_loss,
+                'val_loss': eval_metrics['loss'],
+                'val_precision': eval_metrics['precision'],
+                'val_recall': eval_metrics['recall'],
+                'val_f1': eval_metrics['f1'],
+                'val_exact_match': eval_metrics['exact_match']
+            })
     
     return model
