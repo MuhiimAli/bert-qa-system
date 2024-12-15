@@ -30,12 +30,6 @@ def parse_args():
         default=512,
         help="Maximum sequence length for input text"
     )
-    model_args.add_argument(
-        "--model_name", 
-        type=str, 
-        default="distilbert-base-uncased",
-        help="Name or path of the pretrained model to use"
-    )
     
     # Training arguments
     train_args = parser.add_argument_group('Training configuration')
@@ -46,15 +40,9 @@ def parse_args():
         help="Training batch size"
     )
     train_args.add_argument(
-        "--eval_batch_size", 
-        type=int, 
-        default=8,
-        help="Evaluation batch size"
-    )
-    train_args.add_argument(
         "--learning_rate", 
         type=float, 
-        default=0.00003604942448774387,
+        default=0.00003106031518260137,
         help="Learning rate for optimization"
     )
     train_args.add_argument(
@@ -64,22 +52,10 @@ def parse_args():
         help="Number of training epochs"
     )
     train_args.add_argument(
-        "--warmup_steps", 
-        type=int, 
-        default=0,
-        help="Number of warmup steps for learning rate scheduler"
-    )
-    train_args.add_argument(
         "--weight_decay", 
         type=float, 
         default=0,
         help="Weight decay for AdamW optimizer"
-    )
-    train_args.add_argument(
-        "--gradient_accumulation_steps", 
-        type=int, 
-        default=1,
-        help="Number of updates steps to accumulate before backward pass"
     )
     
     # System arguments

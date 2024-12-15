@@ -1,6 +1,0 @@
-Some weights of DistilBertForQA were not initialized from the model checkpoint at distilbert-base-uncased and are newly initialized: ['distilbert.qa_outputs.bias', 'distilbert.qa_outputs.weight', 'distilbert.qa_type.bias', 'distilbert.qa_type.weight']
-You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
-Epoch 1/3
-
-
-Loss: 12.9239:   1%|▍                                                               | 41/6966 [00:04<08:36, 13.40it/s][34m[1mwandb[39m[22m: Ctrl + C detected. Stopping sweep.

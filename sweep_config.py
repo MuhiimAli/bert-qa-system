@@ -1,12 +1,12 @@
 sweep_configuration = {
     'method': 'bayes',
     'metric': {
-        'name': 'val_precision',
+        'name': 'val_f1',
         'goal': 'maximize'   
     },
     'parameters': {
         'batch_size': {
-            'values': [8,64]
+            'values': [8]
         },
         'learning_rate': {
             'distribution': 'uniform',
@@ -15,6 +15,9 @@ sweep_configuration = {
         },
         'num_epochs': {
             'values': [2,3]
+        },
+        'seed': {
+            'value': 42  # Fixed seed for reproducibility
         }
     }
 }

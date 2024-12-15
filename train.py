@@ -74,11 +74,8 @@ def compute_metrics(total_true_pos: int, total_false_pos: int,
     return precision, recall, f1
 
 def evaluate_model(model: DistilBertModel, dataloader: DataLoader, 
-                  criterion: NQLoss, tokenizer, device: str) -> Dict:
-    """
-    Evaluate the model using token-based metrics, properly handling no-answer cases
-    and counting token occurrences correctly.
-    """
+                  criterion: NQLoss, tokenizer, device: str, 
+                  max_answer_length: int = 30) -> Dict:
     model.eval()
     
     total_loss = 0
@@ -89,17 +86,18 @@ def evaluate_model(model: DistilBertModel, dataloader: DataLoader,
     exact_matches = 0
     total_questions = 0
     mismatch = 0
+    overprediction_cases = 0
+    total_pred_length = 0
+    total_true_length = 0
     
     with torch.no_grad():
         progress_bar = tqdm(dataloader, desc="Evaluating")
         for batch in progress_bar:
             num_batches += 1
             
-            # Move batch to device
             batch = {k: v.to(device) if isinstance(v, torch.Tensor) else v 
                     for k, v in batch.items()}
             
-            # Forward pass
             outputs = model(
                 input_ids=batch['input_ids'],
                 attention_mask=batch['attention_mask']
@@ -107,7 +105,6 @@ def evaluate_model(model: DistilBertModel, dataloader: DataLoader,
             
             start_logits, end_logits, type_logits = outputs
             
-            # Calculate loss
             loss = criterion(
                 start_logits,
                 end_logits,
@@ -117,58 +114,52 @@ def evaluate_model(model: DistilBertModel, dataloader: DataLoader,
                 batch['answer_type']
             )
             
-            # Get predictions
             start_preds = torch.argmax(start_logits, dim=1)
             end_preds = torch.argmax(end_logits, dim=1)
-            type_preds = torch.argmax(type_logits, dim=1)
             
-            # Calculate metrics for each example
             for i in range(len(batch['input_ids'])):
                 total_questions += 1
                 
-                # Get predicted and true spans
                 pred_start = start_preds[i].item()
                 pred_end = end_preds[i].item()
-                # pred_end = max(pred_start, pred_end)
+
                 if pred_end < pred_start:
                     continue
-                if batch['answer_type'][i] == 1 and (pred_start == 0 and pred_end == 0):
-                    # Model incorrectly predicted no-answer for an answerable question
-                    mismatch +=1
-                    print(f"True answer: {true_text}")
-                    print(f"Type logits: {torch.softmax(type_logits[i], dim=0)}")
+                
+                
+                # Add max_answer_length constraint if the answer is too long
+                if pred_end - pred_start > max_answer_length:
                     continue
-           
+                    # pred_start = 0
+                    # pred_end = 0
+                
 
                 true_start = batch['start_position'][i].item()
                 true_end = batch['end_position'][i].item()
-                
-       
-                
-                # Get token IDs for both spans
                 input_ids = batch['input_ids'][i]
+                
+                # Calculate lengths for analysis
+                pred_length = pred_end - pred_start
+                true_length = true_end - true_start
+                
+                # Check for overprediction for analysis
+                if pred_length > true_length and batch['answer_type'][i] == 1:
+                    overprediction_cases += 1
+                    total_pred_length += pred_length
+                    total_true_length += true_length
+                    
+                    
 
-                # Get token sequences
                 pred_tokens = input_ids[pred_start:pred_end].tolist()
                 true_tokens = input_ids[true_start:true_end].tolist()
-                
-                # Create frequency distributions
                 pred_counter = Counter(pred_tokens)
                 true_counter = Counter(true_tokens)
-
-                #for debugging purposes only
-                pred_text = tokenizer.decode(pred_tokens, skip_special_tokens=True, clean_up_tokenization_spaces=True)
-                true_text = tokenizer.decode(true_tokens, skip_special_tokens=True, clean_up_tokenization_spaces=True)
+                
+                true_pos = sum((pred_counter & true_counter).values())
+                false_pos = sum((pred_counter - true_counter).values())
+                false_neg = sum((true_counter - pred_counter).values())
                 
                 
-                # Calculate overlap considering token frequencies
-                true_pos = sum((pred_counter & true_counter).values())  # Intersection with frequencies
-                false_pos = sum((pred_counter - true_counter).values())  # Tokens over-predicted
-                false_neg = sum((true_counter - pred_counter).values())  # Tokens under-predicted
-                
-                # Check for exact match (both token IDs and their frequencies must match)
-                if pred_tokens == true_tokens:
-                    exact_matches += 1
                 
                 total_true_pos += true_pos
                 total_false_pos += false_pos
@@ -176,30 +167,31 @@ def evaluate_model(model: DistilBertModel, dataloader: DataLoader,
             
             total_loss += loss.item()
             
-            # Update progress
             precision, recall, f1 = compute_metrics(
                 total_true_pos, total_false_pos, total_false_neg)
-            exact_match = exact_matches / total_questions if total_questions > 0 else 0
+            
             
             progress_bar.set_description(
-                f"Loss: {total_loss/num_batches:.4f}, F1: {f1:.4f}, EM: {exact_match:.4f}, MM: {mismatch:.4f}"
+                f"Loss: {total_loss/num_batches:.4f}, F1: {f1:.4f},"
+                f"MM: {mismatch}, OP: {overprediction_cases}"
             )
     
+    # Calculate final metrics
     precision, recall, f1 = compute_metrics(
         total_true_pos, total_false_pos, total_false_neg)
-    exact_match = exact_matches / total_questions if total_questions > 0 else 0
     
     return {
         'loss': total_loss / num_batches,
         'precision': precision,
         'recall': recall,
         'f1': f1,
-        'exact_match': exact_match,
         'true_positives': total_true_pos,
         'false_positives': total_false_pos,
         'false_negatives': total_false_neg,
         'total_questions': total_questions,
-        'exact_matches': exact_matches
+        'overprediction_cases': overprediction_cases,
+        'avg_overprediction_length': total_pred_length / overprediction_cases if overprediction_cases > 0 else 0,
+        'avg_true_length': total_true_length / overprediction_cases if overprediction_cases > 0 else 0
     }
 
 def train_one_epoch(model: DistilBertModel,dataloader: DataLoader,
@@ -294,17 +286,38 @@ def train(args, data, tokenizer, use_wandb=False):
             dataloader=data['eval'].dataloader,
             criterion=criterion,
             tokenizer=tokenizer,
-            device=device
+            device=device, 
+            max_answer_length=30
         )
         
-        # Print metrics
-        print(f"\nResults:")
+        # Print detailed metrics
+        print("\n" + "="*50)
+        print(f"Epoch {epoch + 1} Results:")
+        print("="*50)
+        print("\nLoss Metrics:")
         print(f"Train Loss: {train_loss:.4f}")
         print(f"Val Loss: {eval_metrics['loss']:.4f}")
+        
+        print("\nAnswer Prediction Metrics:")
         print(f"Precision: {eval_metrics['precision']:.4f}")
         print(f"Recall: {eval_metrics['recall']:.4f}")
         print(f"F1: {eval_metrics['f1']:.4f}")
         
+        print("\nDetailed Token Statistics:")
+        print(f"True Positives: {eval_metrics['true_positives']}")
+        print(f"False Positives: {eval_metrics['false_positives']}")
+        print(f"False Negatives: {eval_metrics['false_negatives']}")
+        
+        print("\nOverprediction Analysis:")
+        print(f"Total Questions: {eval_metrics['total_questions']}")
+        print(f"Overprediction Cases: {eval_metrics['overprediction_cases']}")
+        if eval_metrics['overprediction_cases'] > 0:
+            overpred_percentage = (eval_metrics['overprediction_cases'] / eval_metrics['total_questions']) * 100
+            print(f"Overprediction Percentage: {overpred_percentage:.1f}%")
+            print(f"Average Predicted Length: {eval_metrics['avg_overprediction_length']:.1f} tokens")
+            print(f"Average True Length: {eval_metrics['avg_true_length']:.1f} tokens")
+            avg_extra = eval_metrics['avg_overprediction_length'] - eval_metrics['avg_true_length']
+            print(f"Average Extra Tokens: {avg_extra:.1f}")
         
         if use_wandb:
             wandb.log({
@@ -314,7 +327,13 @@ def train(args, data, tokenizer, use_wandb=False):
                 'val_precision': eval_metrics['precision'],
                 'val_recall': eval_metrics['recall'],
                 'val_f1': eval_metrics['f1'],
-                'val_exact_match': eval_metrics['exact_match']
+                'overprediction_cases': eval_metrics['overprediction_cases'],
+                'overprediction_avg_length': eval_metrics['avg_overprediction_length'],
+                'true_avg_length': eval_metrics['avg_true_length'],
+                'true_positives': eval_metrics['true_positives'],
+                'false_positives': eval_metrics['false_positives'],
+                'false_negatives': eval_metrics['false_negatives']
             })
+
     
     return model
