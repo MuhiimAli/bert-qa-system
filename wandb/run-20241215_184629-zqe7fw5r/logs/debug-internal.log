@@ -1139,3 +1139,270 @@
 2024-12-15 18:53:12,290 DEBUG   HandlerThread:4160363 [handler.py:handle_request():158] handle_request: internal_messages
 2024-12-15 18:53:13,290 DEBUG   HandlerThread:4160363 [handler.py:handle_request():158] handle_request: internal_messages
 2024-12-15 18:53:13,375 INFO    Thread-12 :4160363 [dir_watcher.py:_on_file_modified():288] file/dir modified: /oscar/home/mali37/final-project-MuhiimAli/wandb/run-20241215_184629-zqe7fw5r/files/output.log
+2024-12-15 18:53:13,624 ERROR   disk      :4160363 [interfaces.py:monitor():142] Failed to sample metric: 'NoneType' object has no attribute 'read_bytes'
+2024-12-15 18:53:13,624 ERROR   disk      :4160363 [interfaces.py:monitor():142] Failed to sample metric: 'NoneType' object has no attribute 'write_bytes'
+2024-12-15 18:53:14,290 DEBUG   HandlerThread:4160363 [handler.py:handle_request():158] handle_request: internal_messages
+2024-12-15 18:53:14,853 DEBUG   HandlerThread:4160363 [handler.py:handle_request():158] handle_request: status_report
+2024-12-15 18:53:15,290 DEBUG   HandlerThread:4160363 [handler.py:handle_request():158] handle_request: internal_messages
+2024-12-15 18:53:15,379 INFO    Thread-12 :4160363 [dir_watcher.py:_on_file_modified():288] file/dir modified: /oscar/home/mali37/final-project-MuhiimAli/wandb/run-20241215_184629-zqe7fw5r/files/output.log
+2024-12-15 18:53:15,625 ERROR   disk      :4160363 [interfaces.py:monitor():142] Failed to sample metric: 'NoneType' object has no attribute 'read_bytes'
+2024-12-15 18:53:15,625 ERROR   disk      :4160363 [interfaces.py:monitor():142] Failed to sample metric: 'NoneType' object has no attribute 'write_bytes'
+2024-12-15 18:53:15,791 DEBUG   HandlerThread:4160363 [handler.py:handle_request():158] handle_request: stop_status
+2024-12-15 18:53:15,791 DEBUG   SenderThread:4160363 [sender.py:send_request():406] send_request: stop_status
+2024-12-15 18:53:16,290 DEBUG   HandlerThread:4160363 [handler.py:handle_request():158] handle_request: internal_messages
+2024-12-15 18:53:17,290 DEBUG   HandlerThread:4160363 [handler.py:handle_request():158] handle_request: internal_messages
+2024-12-15 18:53:17,382 INFO    Thread-12 :4160363 [dir_watcher.py:_on_file_modified():288] file/dir modified: /oscar/home/mali37/final-project-MuhiimAli/wandb/run-20241215_184629-zqe7fw5r/files/output.log
+2024-12-15 18:53:17,625 ERROR   disk      :4160363 [interfaces.py:monitor():142] Failed to sample metric: 'NoneType' object has no attribute 'read_bytes'
+2024-12-15 18:53:17,625 ERROR   disk      :4160363 [interfaces.py:monitor():142] Failed to sample metric: 'NoneType' object has no attribute 'write_bytes'
+2024-12-15 18:53:18,290 DEBUG   HandlerThread:4160363 [handler.py:handle_request():158] handle_request: internal_messages
+2024-12-15 18:53:19,291 DEBUG   HandlerThread:4160363 [handler.py:handle_request():158] handle_request: internal_messages
+2024-12-15 18:53:19,384 INFO    Thread-12 :4160363 [dir_watcher.py:_on_file_modified():288] file/dir modified: /oscar/home/mali37/final-project-MuhiimAli/wandb/run-20241215_184629-zqe7fw5r/files/output.log
+2024-12-15 18:53:19,626 ERROR   disk      :4160363 [interfaces.py:monitor():142] Failed to sample metric: 'NoneType' object has no attribute 'read_bytes'
+2024-12-15 18:53:19,626 ERROR   disk      :4160363 [interfaces.py:monitor():142] Failed to sample metric: 'NoneType' object has no attribute 'write_bytes'
+2024-12-15 18:53:19,911 DEBUG   HandlerThread:4160363 [handler.py:handle_request():158] handle_request: status_report
+2024-12-15 18:53:20,290 DEBUG   HandlerThread:4160363 [handler.py:handle_request():158] handle_request: internal_messages
+2024-12-15 18:53:21,291 DEBUG   HandlerThread:4160363 [handler.py:handle_request():158] handle_request: internal_messages
+2024-12-15 18:53:21,389 INFO    Thread-12 :4160363 [dir_watcher.py:_on_file_modified():288] file/dir modified: /oscar/home/mali37/final-project-MuhiimAli/wandb/run-20241215_184629-zqe7fw5r/files/output.log
+2024-12-15 18:53:21,626 ERROR   disk      :4160363 [interfaces.py:monitor():142] Failed to sample metric: 'NoneType' object has no attribute 'read_bytes'
+2024-12-15 18:53:21,626 ERROR   disk      :4160363 [interfaces.py:monitor():142] Failed to sample metric: 'NoneType' object has no attribute 'write_bytes'
+2024-12-15 18:53:22,291 DEBUG   HandlerThread:4160363 [handler.py:handle_request():158] handle_request: internal_messages
+2024-12-15 18:53:23,291 DEBUG   HandlerThread:4160363 [handler.py:handle_request():158] handle_request: internal_messages
+2024-12-15 18:53:23,391 INFO    Thread-12 :4160363 [dir_watcher.py:_on_file_modified():288] file/dir modified: /oscar/home/mali37/final-project-MuhiimAli/wandb/run-20241215_184629-zqe7fw5r/files/output.log
+2024-12-15 18:53:23,626 ERROR   disk      :4160363 [interfaces.py:monitor():142] Failed to sample metric: 'NoneType' object has no attribute 'read_bytes'
+2024-12-15 18:53:23,627 ERROR   disk      :4160363 [interfaces.py:monitor():142] Failed to sample metric: 'NoneType' object has no attribute 'write_bytes'
+2024-12-15 18:53:24,291 DEBUG   HandlerThread:4160363 [handler.py:handle_request():158] handle_request: internal_messages
+2024-12-15 18:53:24,957 DEBUG   HandlerThread:4160363 [handler.py:handle_request():158] handle_request: status_report
+2024-12-15 18:53:25,291 DEBUG   HandlerThread:4160363 [handler.py:handle_request():158] handle_request: internal_messages
+2024-12-15 18:53:25,397 INFO    Thread-12 :4160363 [dir_watcher.py:_on_file_modified():288] file/dir modified: /oscar/home/mali37/final-project-MuhiimAli/wandb/run-20241215_184629-zqe7fw5r/files/output.log
+2024-12-15 18:53:25,627 ERROR   disk      :4160363 [interfaces.py:monitor():142] Failed to sample metric: 'NoneType' object has no attribute 'read_bytes'
+2024-12-15 18:53:25,627 ERROR   disk      :4160363 [interfaces.py:monitor():142] Failed to sample metric: 'NoneType' object has no attribute 'write_bytes'
+2024-12-15 18:53:26,291 DEBUG   HandlerThread:4160363 [handler.py:handle_request():158] handle_request: internal_messages
+2024-12-15 18:53:27,291 DEBUG   HandlerThread:4160363 [handler.py:handle_request():158] handle_request: internal_messages
+2024-12-15 18:53:27,401 INFO    Thread-12 :4160363 [dir_watcher.py:_on_file_modified():288] file/dir modified: /oscar/home/mali37/final-project-MuhiimAli/wandb/run-20241215_184629-zqe7fw5r/files/output.log
+2024-12-15 18:53:27,627 ERROR   disk      :4160363 [interfaces.py:monitor():142] Failed to sample metric: 'NoneType' object has no attribute 'read_bytes'
+2024-12-15 18:53:27,628 ERROR   disk      :4160363 [interfaces.py:monitor():142] Failed to sample metric: 'NoneType' object has no attribute 'write_bytes'
+2024-12-15 18:53:28,291 DEBUG   HandlerThread:4160363 [handler.py:handle_request():158] handle_request: internal_messages
+2024-12-15 18:53:29,291 DEBUG   HandlerThread:4160363 [handler.py:handle_request():158] handle_request: internal_messages
+2024-12-15 18:53:29,404 INFO    Thread-12 :4160363 [dir_watcher.py:_on_file_modified():288] file/dir modified: /oscar/home/mali37/final-project-MuhiimAli/wandb/run-20241215_184629-zqe7fw5r/files/output.log
+2024-12-15 18:53:29,561 DEBUG   SenderThread:4160363 [sender.py:send():379] send: stats
+2024-12-15 18:53:29,628 ERROR   disk      :4160363 [interfaces.py:monitor():142] Failed to sample metric: 'NoneType' object has no attribute 'read_bytes'
+2024-12-15 18:53:29,628 ERROR   disk      :4160363 [interfaces.py:monitor():142] Failed to sample metric: 'NoneType' object has no attribute 'write_bytes'
+2024-12-15 18:53:30,014 DEBUG   HandlerThread:4160363 [handler.py:handle_request():158] handle_request: status_report
+2024-12-15 18:53:30,291 DEBUG   HandlerThread:4160363 [handler.py:handle_request():158] handle_request: internal_messages
+2024-12-15 18:53:30,791 DEBUG   HandlerThread:4160363 [handler.py:handle_request():158] handle_request: stop_status
+2024-12-15 18:53:30,791 DEBUG   SenderThread:4160363 [sender.py:send_request():406] send_request: stop_status
+2024-12-15 18:53:31,291 DEBUG   HandlerThread:4160363 [handler.py:handle_request():158] handle_request: internal_messages
+2024-12-15 18:53:31,407 INFO    Thread-12 :4160363 [dir_watcher.py:_on_file_modified():288] file/dir modified: /oscar/home/mali37/final-project-MuhiimAli/wandb/run-20241215_184629-zqe7fw5r/files/output.log
+2024-12-15 18:53:31,628 ERROR   disk      :4160363 [interfaces.py:monitor():142] Failed to sample metric: 'NoneType' object has no attribute 'read_bytes'
+2024-12-15 18:53:31,628 ERROR   disk      :4160363 [interfaces.py:monitor():142] Failed to sample metric: 'NoneType' object has no attribute 'write_bytes'
+2024-12-15 18:53:32,292 DEBUG   HandlerThread:4160363 [handler.py:handle_request():158] handle_request: internal_messages
+2024-12-15 18:53:33,292 DEBUG   HandlerThread:4160363 [handler.py:handle_request():158] handle_request: internal_messages
+2024-12-15 18:53:33,409 INFO    Thread-12 :4160363 [dir_watcher.py:_on_file_modified():288] file/dir modified: /oscar/home/mali37/final-project-MuhiimAli/wandb/run-20241215_184629-zqe7fw5r/files/output.log
+2024-12-15 18:53:33,629 ERROR   disk      :4160363 [interfaces.py:monitor():142] Failed to sample metric: 'NoneType' object has no attribute 'read_bytes'
+2024-12-15 18:53:33,629 ERROR   disk      :4160363 [interfaces.py:monitor():142] Failed to sample metric: 'NoneType' object has no attribute 'write_bytes'
+2024-12-15 18:53:34,292 DEBUG   HandlerThread:4160363 [handler.py:handle_request():158] handle_request: internal_messages
+2024-12-15 18:53:35,065 DEBUG   HandlerThread:4160363 [handler.py:handle_request():158] handle_request: status_report
+2024-12-15 18:53:35,292 DEBUG   HandlerThread:4160363 [handler.py:handle_request():158] handle_request: internal_messages
+2024-12-15 18:53:35,458 INFO    Thread-12 :4160363 [dir_watcher.py:_on_file_modified():288] file/dir modified: /oscar/home/mali37/final-project-MuhiimAli/wandb/run-20241215_184629-zqe7fw5r/files/output.log
+2024-12-15 18:53:35,629 ERROR   disk      :4160363 [interfaces.py:monitor():142] Failed to sample metric: 'NoneType' object has no attribute 'read_bytes'
+2024-12-15 18:53:35,629 ERROR   disk      :4160363 [interfaces.py:monitor():142] Failed to sample metric: 'NoneType' object has no attribute 'write_bytes'
+2024-12-15 18:53:36,292 DEBUG   HandlerThread:4160363 [handler.py:handle_request():158] handle_request: internal_messages
+2024-12-15 18:53:37,292 DEBUG   HandlerThread:4160363 [handler.py:handle_request():158] handle_request: internal_messages
+2024-12-15 18:53:37,460 INFO    Thread-12 :4160363 [dir_watcher.py:_on_file_modified():288] file/dir modified: /oscar/home/mali37/final-project-MuhiimAli/wandb/run-20241215_184629-zqe7fw5r/files/output.log
+2024-12-15 18:53:37,630 ERROR   disk      :4160363 [interfaces.py:monitor():142] Failed to sample metric: 'NoneType' object has no attribute 'read_bytes'
+2024-12-15 18:53:37,630 ERROR   disk      :4160363 [interfaces.py:monitor():142] Failed to sample metric: 'NoneType' object has no attribute 'write_bytes'
+2024-12-15 18:53:38,292 DEBUG   HandlerThread:4160363 [handler.py:handle_request():158] handle_request: internal_messages
+2024-12-15 18:53:39,292 DEBUG   HandlerThread:4160363 [handler.py:handle_request():158] handle_request: internal_messages
+2024-12-15 18:53:39,463 INFO    Thread-12 :4160363 [dir_watcher.py:_on_file_modified():288] file/dir modified: /oscar/home/mali37/final-project-MuhiimAli/wandb/run-20241215_184629-zqe7fw5r/files/output.log
+2024-12-15 18:53:39,630 ERROR   disk      :4160363 [interfaces.py:monitor():142] Failed to sample metric: 'NoneType' object has no attribute 'read_bytes'
+2024-12-15 18:53:39,630 ERROR   disk      :4160363 [interfaces.py:monitor():142] Failed to sample metric: 'NoneType' object has no attribute 'write_bytes'
+2024-12-15 18:53:40,117 DEBUG   HandlerThread:4160363 [handler.py:handle_request():158] handle_request: status_report
+2024-12-15 18:53:40,292 DEBUG   HandlerThread:4160363 [handler.py:handle_request():158] handle_request: internal_messages
+2024-12-15 18:53:41,292 DEBUG   HandlerThread:4160363 [handler.py:handle_request():158] handle_request: internal_messages
+2024-12-15 18:53:41,474 INFO    Thread-12 :4160363 [dir_watcher.py:_on_file_modified():288] file/dir modified: /oscar/home/mali37/final-project-MuhiimAli/wandb/run-20241215_184629-zqe7fw5r/files/output.log
+2024-12-15 18:53:41,630 ERROR   disk      :4160363 [interfaces.py:monitor():142] Failed to sample metric: 'NoneType' object has no attribute 'read_bytes'
+2024-12-15 18:53:41,630 ERROR   disk      :4160363 [interfaces.py:monitor():142] Failed to sample metric: 'NoneType' object has no attribute 'write_bytes'
+2024-12-15 18:53:42,292 DEBUG   HandlerThread:4160363 [handler.py:handle_request():158] handle_request: internal_messages
+2024-12-15 18:53:43,292 DEBUG   HandlerThread:4160363 [handler.py:handle_request():158] handle_request: internal_messages
+2024-12-15 18:53:43,477 INFO    Thread-12 :4160363 [dir_watcher.py:_on_file_modified():288] file/dir modified: /oscar/home/mali37/final-project-MuhiimAli/wandb/run-20241215_184629-zqe7fw5r/files/output.log
+2024-12-15 18:53:43,631 ERROR   disk      :4160363 [interfaces.py:monitor():142] Failed to sample metric: 'NoneType' object has no attribute 'read_bytes'
+2024-12-15 18:53:43,631 ERROR   disk      :4160363 [interfaces.py:monitor():142] Failed to sample metric: 'NoneType' object has no attribute 'write_bytes'
+2024-12-15 18:53:44,292 DEBUG   HandlerThread:4160363 [handler.py:handle_request():158] handle_request: internal_messages
+2024-12-15 18:53:45,162 DEBUG   HandlerThread:4160363 [handler.py:handle_request():158] handle_request: status_report
+2024-12-15 18:53:45,292 DEBUG   HandlerThread:4160363 [handler.py:handle_request():158] handle_request: internal_messages
+2024-12-15 18:53:45,481 INFO    Thread-12 :4160363 [dir_watcher.py:_on_file_modified():288] file/dir modified: /oscar/home/mali37/final-project-MuhiimAli/wandb/run-20241215_184629-zqe7fw5r/files/output.log
+2024-12-15 18:53:45,631 ERROR   disk      :4160363 [interfaces.py:monitor():142] Failed to sample metric: 'NoneType' object has no attribute 'read_bytes'
+2024-12-15 18:53:45,631 ERROR   disk      :4160363 [interfaces.py:monitor():142] Failed to sample metric: 'NoneType' object has no attribute 'write_bytes'
+2024-12-15 18:53:45,791 DEBUG   HandlerThread:4160363 [handler.py:handle_request():158] handle_request: stop_status
+2024-12-15 18:53:45,791 DEBUG   SenderThread:4160363 [sender.py:send_request():406] send_request: stop_status
+2024-12-15 18:53:46,292 DEBUG   HandlerThread:4160363 [handler.py:handle_request():158] handle_request: internal_messages
+2024-12-15 18:53:47,293 DEBUG   HandlerThread:4160363 [handler.py:handle_request():158] handle_request: internal_messages
+2024-12-15 18:53:47,486 INFO    Thread-12 :4160363 [dir_watcher.py:_on_file_modified():288] file/dir modified: /oscar/home/mali37/final-project-MuhiimAli/wandb/run-20241215_184629-zqe7fw5r/files/output.log
+2024-12-15 18:53:47,632 ERROR   disk      :4160363 [interfaces.py:monitor():142] Failed to sample metric: 'NoneType' object has no attribute 'read_bytes'
+2024-12-15 18:53:47,632 ERROR   disk      :4160363 [interfaces.py:monitor():142] Failed to sample metric: 'NoneType' object has no attribute 'write_bytes'
+2024-12-15 18:53:48,293 DEBUG   HandlerThread:4160363 [handler.py:handle_request():158] handle_request: internal_messages
+2024-12-15 18:53:49,293 DEBUG   HandlerThread:4160363 [handler.py:handle_request():158] handle_request: internal_messages
+2024-12-15 18:53:49,489 INFO    Thread-12 :4160363 [dir_watcher.py:_on_file_modified():288] file/dir modified: /oscar/home/mali37/final-project-MuhiimAli/wandb/run-20241215_184629-zqe7fw5r/files/output.log
+2024-12-15 18:53:49,632 ERROR   disk      :4160363 [interfaces.py:monitor():142] Failed to sample metric: 'NoneType' object has no attribute 'read_bytes'
+2024-12-15 18:53:49,632 ERROR   disk      :4160363 [interfaces.py:monitor():142] Failed to sample metric: 'NoneType' object has no attribute 'write_bytes'
+2024-12-15 18:53:50,203 DEBUG   HandlerThread:4160363 [handler.py:handle_request():158] handle_request: status_report
+2024-12-15 18:53:50,293 DEBUG   HandlerThread:4160363 [handler.py:handle_request():158] handle_request: internal_messages
+2024-12-15 18:53:51,293 DEBUG   HandlerThread:4160363 [handler.py:handle_request():158] handle_request: internal_messages
+2024-12-15 18:53:51,492 INFO    Thread-12 :4160363 [dir_watcher.py:_on_file_modified():288] file/dir modified: /oscar/home/mali37/final-project-MuhiimAli/wandb/run-20241215_184629-zqe7fw5r/files/output.log
+2024-12-15 18:53:51,632 ERROR   disk      :4160363 [interfaces.py:monitor():142] Failed to sample metric: 'NoneType' object has no attribute 'read_bytes'
+2024-12-15 18:53:51,633 ERROR   disk      :4160363 [interfaces.py:monitor():142] Failed to sample metric: 'NoneType' object has no attribute 'write_bytes'
+2024-12-15 18:53:52,293 DEBUG   HandlerThread:4160363 [handler.py:handle_request():158] handle_request: internal_messages
+2024-12-15 18:53:53,293 DEBUG   HandlerThread:4160363 [handler.py:handle_request():158] handle_request: internal_messages
+2024-12-15 18:53:53,495 INFO    Thread-12 :4160363 [dir_watcher.py:_on_file_modified():288] file/dir modified: /oscar/home/mali37/final-project-MuhiimAli/wandb/run-20241215_184629-zqe7fw5r/files/output.log
+2024-12-15 18:53:53,633 ERROR   disk      :4160363 [interfaces.py:monitor():142] Failed to sample metric: 'NoneType' object has no attribute 'read_bytes'
+2024-12-15 18:53:53,633 ERROR   disk      :4160363 [interfaces.py:monitor():142] Failed to sample metric: 'NoneType' object has no attribute 'write_bytes'
+2024-12-15 18:53:54,293 DEBUG   HandlerThread:4160363 [handler.py:handle_request():158] handle_request: internal_messages
+2024-12-15 18:53:55,246 DEBUG   HandlerThread:4160363 [handler.py:handle_request():158] handle_request: status_report
+2024-12-15 18:53:55,293 DEBUG   HandlerThread:4160363 [handler.py:handle_request():158] handle_request: internal_messages
+2024-12-15 18:53:55,499 INFO    Thread-12 :4160363 [dir_watcher.py:_on_file_modified():288] file/dir modified: /oscar/home/mali37/final-project-MuhiimAli/wandb/run-20241215_184629-zqe7fw5r/files/output.log
+2024-12-15 18:53:55,633 ERROR   disk      :4160363 [interfaces.py:monitor():142] Failed to sample metric: 'NoneType' object has no attribute 'read_bytes'
+2024-12-15 18:53:55,633 ERROR   disk      :4160363 [interfaces.py:monitor():142] Failed to sample metric: 'NoneType' object has no attribute 'write_bytes'
+2024-12-15 18:53:56,293 DEBUG   HandlerThread:4160363 [handler.py:handle_request():158] handle_request: internal_messages
+2024-12-15 18:53:57,293 DEBUG   HandlerThread:4160363 [handler.py:handle_request():158] handle_request: internal_messages
+2024-12-15 18:53:57,502 INFO    Thread-12 :4160363 [dir_watcher.py:_on_file_modified():288] file/dir modified: /oscar/home/mali37/final-project-MuhiimAli/wandb/run-20241215_184629-zqe7fw5r/files/output.log
+2024-12-15 18:53:57,634 ERROR   disk      :4160363 [interfaces.py:monitor():142] Failed to sample metric: 'NoneType' object has no attribute 'read_bytes'
+2024-12-15 18:53:57,634 ERROR   disk      :4160363 [interfaces.py:monitor():142] Failed to sample metric: 'NoneType' object has no attribute 'write_bytes'
+2024-12-15 18:53:58,294 DEBUG   HandlerThread:4160363 [handler.py:handle_request():158] handle_request: internal_messages
+2024-12-15 18:53:59,294 DEBUG   HandlerThread:4160363 [handler.py:handle_request():158] handle_request: internal_messages
+2024-12-15 18:53:59,503 INFO    Thread-12 :4160363 [dir_watcher.py:_on_file_modified():288] file/dir modified: /oscar/home/mali37/final-project-MuhiimAli/wandb/run-20241215_184629-zqe7fw5r/files/output.log
+2024-12-15 18:53:59,562 DEBUG   SenderThread:4160363 [sender.py:send():379] send: stats
+2024-12-15 18:53:59,634 ERROR   disk      :4160363 [interfaces.py:monitor():142] Failed to sample metric: 'NoneType' object has no attribute 'read_bytes'
+2024-12-15 18:53:59,635 ERROR   disk      :4160363 [interfaces.py:monitor():142] Failed to sample metric: 'NoneType' object has no attribute 'write_bytes'
+2024-12-15 18:54:00,290 DEBUG   HandlerThread:4160363 [handler.py:handle_request():158] handle_request: status_report
+2024-12-15 18:54:00,294 DEBUG   HandlerThread:4160363 [handler.py:handle_request():158] handle_request: internal_messages
+2024-12-15 18:54:00,791 DEBUG   HandlerThread:4160363 [handler.py:handle_request():158] handle_request: stop_status
+2024-12-15 18:54:00,791 DEBUG   SenderThread:4160363 [sender.py:send_request():406] send_request: stop_status
+2024-12-15 18:54:01,294 DEBUG   HandlerThread:4160363 [handler.py:handle_request():158] handle_request: internal_messages
+2024-12-15 18:54:01,509 INFO    Thread-12 :4160363 [dir_watcher.py:_on_file_modified():288] file/dir modified: /oscar/home/mali37/final-project-MuhiimAli/wandb/run-20241215_184629-zqe7fw5r/files/output.log
+2024-12-15 18:54:01,635 ERROR   disk      :4160363 [interfaces.py:monitor():142] Failed to sample metric: 'NoneType' object has no attribute 'read_bytes'
+2024-12-15 18:54:01,635 ERROR   disk      :4160363 [interfaces.py:monitor():142] Failed to sample metric: 'NoneType' object has no attribute 'write_bytes'
+2024-12-15 18:54:02,294 DEBUG   HandlerThread:4160363 [handler.py:handle_request():158] handle_request: internal_messages
+2024-12-15 18:54:03,294 DEBUG   HandlerThread:4160363 [handler.py:handle_request():158] handle_request: internal_messages
+2024-12-15 18:54:03,511 INFO    Thread-12 :4160363 [dir_watcher.py:_on_file_modified():288] file/dir modified: /oscar/home/mali37/final-project-MuhiimAli/wandb/run-20241215_184629-zqe7fw5r/files/output.log
+2024-12-15 18:54:03,635 ERROR   disk      :4160363 [interfaces.py:monitor():142] Failed to sample metric: 'NoneType' object has no attribute 'read_bytes'
+2024-12-15 18:54:03,636 ERROR   disk      :4160363 [interfaces.py:monitor():142] Failed to sample metric: 'NoneType' object has no attribute 'write_bytes'
+2024-12-15 18:54:04,294 DEBUG   HandlerThread:4160363 [handler.py:handle_request():158] handle_request: internal_messages
+2024-12-15 18:54:05,294 DEBUG   HandlerThread:4160363 [handler.py:handle_request():158] handle_request: internal_messages
+2024-12-15 18:54:05,334 DEBUG   HandlerThread:4160363 [handler.py:handle_request():158] handle_request: status_report
+2024-12-15 18:54:05,536 INFO    Thread-12 :4160363 [dir_watcher.py:_on_file_modified():288] file/dir modified: /oscar/home/mali37/final-project-MuhiimAli/wandb/run-20241215_184629-zqe7fw5r/files/output.log
+2024-12-15 18:54:05,636 ERROR   disk      :4160363 [interfaces.py:monitor():142] Failed to sample metric: 'NoneType' object has no attribute 'read_bytes'
+2024-12-15 18:54:05,636 ERROR   disk      :4160363 [interfaces.py:monitor():142] Failed to sample metric: 'NoneType' object has no attribute 'write_bytes'
+2024-12-15 18:54:06,294 DEBUG   HandlerThread:4160363 [handler.py:handle_request():158] handle_request: internal_messages
+2024-12-15 18:54:07,294 DEBUG   HandlerThread:4160363 [handler.py:handle_request():158] handle_request: internal_messages
+2024-12-15 18:54:07,541 INFO    Thread-12 :4160363 [dir_watcher.py:_on_file_modified():288] file/dir modified: /oscar/home/mali37/final-project-MuhiimAli/wandb/run-20241215_184629-zqe7fw5r/files/output.log
+2024-12-15 18:54:07,636 ERROR   disk      :4160363 [interfaces.py:monitor():142] Failed to sample metric: 'NoneType' object has no attribute 'read_bytes'
+2024-12-15 18:54:07,636 ERROR   disk      :4160363 [interfaces.py:monitor():142] Failed to sample metric: 'NoneType' object has no attribute 'write_bytes'
+2024-12-15 18:54:08,294 DEBUG   HandlerThread:4160363 [handler.py:handle_request():158] handle_request: internal_messages
+2024-12-15 18:54:09,294 DEBUG   HandlerThread:4160363 [handler.py:handle_request():158] handle_request: internal_messages
+2024-12-15 18:54:09,555 INFO    Thread-12 :4160363 [dir_watcher.py:_on_file_modified():288] file/dir modified: /oscar/home/mali37/final-project-MuhiimAli/wandb/run-20241215_184629-zqe7fw5r/files/output.log
+2024-12-15 18:54:09,637 ERROR   disk      :4160363 [interfaces.py:monitor():142] Failed to sample metric: 'NoneType' object has no attribute 'read_bytes'
+2024-12-15 18:54:09,637 ERROR   disk      :4160363 [interfaces.py:monitor():142] Failed to sample metric: 'NoneType' object has no attribute 'write_bytes'
+2024-12-15 18:54:10,294 DEBUG   HandlerThread:4160363 [handler.py:handle_request():158] handle_request: internal_messages
+2024-12-15 18:54:10,375 DEBUG   HandlerThread:4160363 [handler.py:handle_request():158] handle_request: status_report
+2024-12-15 18:54:11,294 DEBUG   HandlerThread:4160363 [handler.py:handle_request():158] handle_request: internal_messages
+2024-12-15 18:54:11,565 INFO    Thread-12 :4160363 [dir_watcher.py:_on_file_modified():288] file/dir modified: /oscar/home/mali37/final-project-MuhiimAli/wandb/run-20241215_184629-zqe7fw5r/files/output.log
+2024-12-15 18:54:11,637 ERROR   disk      :4160363 [interfaces.py:monitor():142] Failed to sample metric: 'NoneType' object has no attribute 'read_bytes'
+2024-12-15 18:54:11,637 ERROR   disk      :4160363 [interfaces.py:monitor():142] Failed to sample metric: 'NoneType' object has no attribute 'write_bytes'
+2024-12-15 18:54:12,295 DEBUG   HandlerThread:4160363 [handler.py:handle_request():158] handle_request: internal_messages
+2024-12-15 18:54:13,295 DEBUG   HandlerThread:4160363 [handler.py:handle_request():158] handle_request: internal_messages
+2024-12-15 18:54:13,569 INFO    Thread-12 :4160363 [dir_watcher.py:_on_file_modified():288] file/dir modified: /oscar/home/mali37/final-project-MuhiimAli/wandb/run-20241215_184629-zqe7fw5r/files/output.log
+2024-12-15 18:54:13,638 ERROR   disk      :4160363 [interfaces.py:monitor():142] Failed to sample metric: 'NoneType' object has no attribute 'read_bytes'
+2024-12-15 18:54:13,638 ERROR   disk      :4160363 [interfaces.py:monitor():142] Failed to sample metric: 'NoneType' object has no attribute 'write_bytes'
+2024-12-15 18:54:14,295 DEBUG   HandlerThread:4160363 [handler.py:handle_request():158] handle_request: internal_messages
+2024-12-15 18:54:15,295 DEBUG   HandlerThread:4160363 [handler.py:handle_request():158] handle_request: internal_messages
+2024-12-15 18:54:15,416 DEBUG   HandlerThread:4160363 [handler.py:handle_request():158] handle_request: status_report
+2024-12-15 18:54:15,573 INFO    Thread-12 :4160363 [dir_watcher.py:_on_file_modified():288] file/dir modified: /oscar/home/mali37/final-project-MuhiimAli/wandb/run-20241215_184629-zqe7fw5r/files/output.log
+2024-12-15 18:54:15,638 ERROR   disk      :4160363 [interfaces.py:monitor():142] Failed to sample metric: 'NoneType' object has no attribute 'read_bytes'
+2024-12-15 18:54:15,638 ERROR   disk      :4160363 [interfaces.py:monitor():142] Failed to sample metric: 'NoneType' object has no attribute 'write_bytes'
+2024-12-15 18:54:15,791 DEBUG   HandlerThread:4160363 [handler.py:handle_request():158] handle_request: stop_status
+2024-12-15 18:54:15,791 DEBUG   SenderThread:4160363 [sender.py:send_request():406] send_request: stop_status
+2024-12-15 18:54:16,295 DEBUG   HandlerThread:4160363 [handler.py:handle_request():158] handle_request: internal_messages
+2024-12-15 18:54:17,295 DEBUG   HandlerThread:4160363 [handler.py:handle_request():158] handle_request: internal_messages
+2024-12-15 18:54:17,575 INFO    Thread-12 :4160363 [dir_watcher.py:_on_file_modified():288] file/dir modified: /oscar/home/mali37/final-project-MuhiimAli/wandb/run-20241215_184629-zqe7fw5r/files/output.log
+2024-12-15 18:54:17,639 ERROR   disk      :4160363 [interfaces.py:monitor():142] Failed to sample metric: 'NoneType' object has no attribute 'read_bytes'
+2024-12-15 18:54:17,639 ERROR   disk      :4160363 [interfaces.py:monitor():142] Failed to sample metric: 'NoneType' object has no attribute 'write_bytes'
+2024-12-15 18:54:18,295 DEBUG   HandlerThread:4160363 [handler.py:handle_request():158] handle_request: internal_messages
+2024-12-15 18:54:19,295 DEBUG   HandlerThread:4160363 [handler.py:handle_request():158] handle_request: internal_messages
+2024-12-15 18:54:19,578 INFO    Thread-12 :4160363 [dir_watcher.py:_on_file_modified():288] file/dir modified: /oscar/home/mali37/final-project-MuhiimAli/wandb/run-20241215_184629-zqe7fw5r/files/output.log
+2024-12-15 18:54:19,639 ERROR   disk      :4160363 [interfaces.py:monitor():142] Failed to sample metric: 'NoneType' object has no attribute 'read_bytes'
+2024-12-15 18:54:19,639 ERROR   disk      :4160363 [interfaces.py:monitor():142] Failed to sample metric: 'NoneType' object has no attribute 'write_bytes'
+2024-12-15 18:54:20,295 DEBUG   HandlerThread:4160363 [handler.py:handle_request():158] handle_request: internal_messages
+2024-12-15 18:54:20,416 DEBUG   HandlerThread:4160363 [handler.py:handle_request():158] handle_request: status_report
+2024-12-15 18:54:21,295 DEBUG   HandlerThread:4160363 [handler.py:handle_request():158] handle_request: internal_messages
+2024-12-15 18:54:21,580 INFO    Thread-12 :4160363 [dir_watcher.py:_on_file_modified():288] file/dir modified: /oscar/home/mali37/final-project-MuhiimAli/wandb/run-20241215_184629-zqe7fw5r/files/output.log
+2024-12-15 18:54:21,640 ERROR   disk      :4160363 [interfaces.py:monitor():142] Failed to sample metric: 'NoneType' object has no attribute 'read_bytes'
+2024-12-15 18:54:21,640 ERROR   disk      :4160363 [interfaces.py:monitor():142] Failed to sample metric: 'NoneType' object has no attribute 'write_bytes'
+2024-12-15 18:54:22,295 DEBUG   HandlerThread:4160363 [handler.py:handle_request():158] handle_request: internal_messages
+2024-12-15 18:54:23,295 DEBUG   HandlerThread:4160363 [handler.py:handle_request():158] handle_request: internal_messages
+2024-12-15 18:54:23,582 INFO    Thread-12 :4160363 [dir_watcher.py:_on_file_modified():288] file/dir modified: /oscar/home/mali37/final-project-MuhiimAli/wandb/run-20241215_184629-zqe7fw5r/files/output.log
+2024-12-15 18:54:23,640 ERROR   disk      :4160363 [interfaces.py:monitor():142] Failed to sample metric: 'NoneType' object has no attribute 'read_bytes'
+2024-12-15 18:54:23,640 ERROR   disk      :4160363 [interfaces.py:monitor():142] Failed to sample metric: 'NoneType' object has no attribute 'write_bytes'
+2024-12-15 18:54:23,754 DEBUG   HandlerThread:4160363 [handler.py:handle_request():158] handle_request: partial_history
+2024-12-15 18:54:23,755 DEBUG   SenderThread:4160363 [sender.py:send():379] send: history
+2024-12-15 18:54:23,756 DEBUG   SenderThread:4160363 [sender.py:send_request():406] send_request: summary_record
+2024-12-15 18:54:23,763 INFO    SenderThread:4160363 [sender.py:_save_file():1454] saving file wandb-summary.json with policy end
+2024-12-15 18:54:24,296 DEBUG   HandlerThread:4160363 [handler.py:handle_request():158] handle_request: internal_messages
+2024-12-15 18:54:24,584 INFO    Thread-12 :4160363 [dir_watcher.py:_on_file_created():271] file/dir created: /oscar/home/mali37/final-project-MuhiimAli/wandb/run-20241215_184629-zqe7fw5r/files/wandb-summary.json
+2024-12-15 18:54:25,296 DEBUG   HandlerThread:4160363 [handler.py:handle_request():158] handle_request: internal_messages
+2024-12-15 18:54:25,479 DEBUG   HandlerThread:4160363 [handler.py:handle_request():158] handle_request: status_report
+2024-12-15 18:54:25,587 INFO    Thread-12 :4160363 [dir_watcher.py:_on_file_modified():288] file/dir modified: /oscar/home/mali37/final-project-MuhiimAli/wandb/run-20241215_184629-zqe7fw5r/files/output.log
+2024-12-15 18:54:25,640 ERROR   disk      :4160363 [interfaces.py:monitor():142] Failed to sample metric: 'NoneType' object has no attribute 'read_bytes'
+2024-12-15 18:54:25,641 ERROR   disk      :4160363 [interfaces.py:monitor():142] Failed to sample metric: 'NoneType' object has no attribute 'write_bytes'
+2024-12-15 18:54:26,296 DEBUG   HandlerThread:4160363 [handler.py:handle_request():158] handle_request: internal_messages
+2024-12-15 18:54:27,296 DEBUG   HandlerThread:4160363 [handler.py:handle_request():158] handle_request: internal_messages
+2024-12-15 18:54:27,590 INFO    Thread-12 :4160363 [dir_watcher.py:_on_file_modified():288] file/dir modified: /oscar/home/mali37/final-project-MuhiimAli/wandb/run-20241215_184629-zqe7fw5r/files/output.log
+2024-12-15 18:54:27,641 ERROR   disk      :4160363 [interfaces.py:monitor():142] Failed to sample metric: 'NoneType' object has no attribute 'read_bytes'
+2024-12-15 18:54:27,641 ERROR   disk      :4160363 [interfaces.py:monitor():142] Failed to sample metric: 'NoneType' object has no attribute 'write_bytes'
+2024-12-15 18:54:28,296 DEBUG   HandlerThread:4160363 [handler.py:handle_request():158] handle_request: internal_messages
+2024-12-15 18:54:29,296 DEBUG   HandlerThread:4160363 [handler.py:handle_request():158] handle_request: internal_messages
+2024-12-15 18:54:29,563 DEBUG   SenderThread:4160363 [sender.py:send():379] send: stats
+2024-12-15 18:54:29,592 INFO    Thread-12 :4160363 [dir_watcher.py:_on_file_modified():288] file/dir modified: /oscar/home/mali37/final-project-MuhiimAli/wandb/run-20241215_184629-zqe7fw5r/files/output.log
+2024-12-15 18:54:29,641 ERROR   disk      :4160363 [interfaces.py:monitor():142] Failed to sample metric: 'NoneType' object has no attribute 'read_bytes'
+2024-12-15 18:54:29,642 ERROR   disk      :4160363 [interfaces.py:monitor():142] Failed to sample metric: 'NoneType' object has no attribute 'write_bytes'
+2024-12-15 18:54:30,296 DEBUG   HandlerThread:4160363 [handler.py:handle_request():158] handle_request: internal_messages
+2024-12-15 18:54:30,563 DEBUG   HandlerThread:4160363 [handler.py:handle_request():158] handle_request: status_report
+2024-12-15 18:54:30,791 DEBUG   HandlerThread:4160363 [handler.py:handle_request():158] handle_request: stop_status
+2024-12-15 18:54:30,792 DEBUG   SenderThread:4160363 [sender.py:send_request():406] send_request: stop_status
+2024-12-15 18:54:31,296 DEBUG   HandlerThread:4160363 [handler.py:handle_request():158] handle_request: internal_messages
+2024-12-15 18:54:31,607 INFO    Thread-12 :4160363 [dir_watcher.py:_on_file_modified():288] file/dir modified: /oscar/home/mali37/final-project-MuhiimAli/wandb/run-20241215_184629-zqe7fw5r/files/output.log
+2024-12-15 18:54:31,642 ERROR   disk      :4160363 [interfaces.py:monitor():142] Failed to sample metric: 'NoneType' object has no attribute 'read_bytes'
+2024-12-15 18:54:31,642 ERROR   disk      :4160363 [interfaces.py:monitor():142] Failed to sample metric: 'NoneType' object has no attribute 'write_bytes'
+2024-12-15 18:54:32,296 DEBUG   HandlerThread:4160363 [handler.py:handle_request():158] handle_request: internal_messages
+2024-12-15 18:54:33,296 DEBUG   HandlerThread:4160363 [handler.py:handle_request():158] handle_request: internal_messages
+2024-12-15 18:54:33,614 INFO    Thread-12 :4160363 [dir_watcher.py:_on_file_modified():288] file/dir modified: /oscar/home/mali37/final-project-MuhiimAli/wandb/run-20241215_184629-zqe7fw5r/files/output.log
+2024-12-15 18:54:33,643 ERROR   disk      :4160363 [interfaces.py:monitor():142] Failed to sample metric: 'NoneType' object has no attribute 'read_bytes'
+2024-12-15 18:54:33,643 ERROR   disk      :4160363 [interfaces.py:monitor():142] Failed to sample metric: 'NoneType' object has no attribute 'write_bytes'
+2024-12-15 18:54:34,297 DEBUG   HandlerThread:4160363 [handler.py:handle_request():158] handle_request: internal_messages
+2024-12-15 18:54:35,296 DEBUG   HandlerThread:4160363 [handler.py:handle_request():158] handle_request: internal_messages
+2024-12-15 18:54:35,623 INFO    Thread-12 :4160363 [dir_watcher.py:_on_file_modified():288] file/dir modified: /oscar/home/mali37/final-project-MuhiimAli/wandb/run-20241215_184629-zqe7fw5r/files/output.log
+2024-12-15 18:54:35,634 DEBUG   HandlerThread:4160363 [handler.py:handle_request():158] handle_request: status_report
+2024-12-15 18:54:35,643 ERROR   disk      :4160363 [interfaces.py:monitor():142] Failed to sample metric: 'NoneType' object has no attribute 'read_bytes'
+2024-12-15 18:54:35,643 ERROR   disk      :4160363 [interfaces.py:monitor():142] Failed to sample metric: 'NoneType' object has no attribute 'write_bytes'
+2024-12-15 18:54:36,296 DEBUG   HandlerThread:4160363 [handler.py:handle_request():158] handle_request: internal_messages
+2024-12-15 18:54:37,297 DEBUG   HandlerThread:4160363 [handler.py:handle_request():158] handle_request: internal_messages
+2024-12-15 18:54:37,628 INFO    Thread-12 :4160363 [dir_watcher.py:_on_file_modified():288] file/dir modified: /oscar/home/mali37/final-project-MuhiimAli/wandb/run-20241215_184629-zqe7fw5r/files/output.log
+2024-12-15 18:54:37,643 ERROR   disk      :4160363 [interfaces.py:monitor():142] Failed to sample metric: 'NoneType' object has no attribute 'read_bytes'
+2024-12-15 18:54:37,644 ERROR   disk      :4160363 [interfaces.py:monitor():142] Failed to sample metric: 'NoneType' object has no attribute 'write_bytes'
+2024-12-15 18:54:38,296 DEBUG   HandlerThread:4160363 [handler.py:handle_request():158] handle_request: internal_messages
+2024-12-15 18:54:39,297 DEBUG   HandlerThread:4160363 [handler.py:handle_request():158] handle_request: internal_messages
+2024-12-15 18:54:39,630 INFO    Thread-12 :4160363 [dir_watcher.py:_on_file_modified():288] file/dir modified: /oscar/home/mali37/final-project-MuhiimAli/wandb/run-20241215_184629-zqe7fw5r/files/output.log
+2024-12-15 18:54:39,644 ERROR   disk      :4160363 [interfaces.py:monitor():142] Failed to sample metric: 'NoneType' object has no attribute 'read_bytes'
+2024-12-15 18:54:39,644 ERROR   disk      :4160363 [interfaces.py:monitor():142] Failed to sample metric: 'NoneType' object has no attribute 'write_bytes'
+2024-12-15 18:54:40,297 DEBUG   HandlerThread:4160363 [handler.py:handle_request():158] handle_request: internal_messages
+2024-12-15 18:54:40,707 DEBUG   HandlerThread:4160363 [handler.py:handle_request():158] handle_request: status_report
+2024-12-15 18:54:41,297 DEBUG   HandlerThread:4160363 [handler.py:handle_request():158] handle_request: internal_messages
+2024-12-15 18:54:41,633 INFO    Thread-12 :4160363 [dir_watcher.py:_on_file_modified():288] file/dir modified: /oscar/home/mali37/final-project-MuhiimAli/wandb/run-20241215_184629-zqe7fw5r/files/output.log
+2024-12-15 18:54:41,644 ERROR   disk      :4160363 [interfaces.py:monitor():142] Failed to sample metric: 'NoneType' object has no attribute 'read_bytes'
+2024-12-15 18:54:41,644 ERROR   disk      :4160363 [interfaces.py:monitor():142] Failed to sample metric: 'NoneType' object has no attribute 'write_bytes'
+2024-12-15 18:54:42,297 DEBUG   HandlerThread:4160363 [handler.py:handle_request():158] handle_request: internal_messages
+2024-12-15 18:54:43,297 DEBUG   HandlerThread:4160363 [handler.py:handle_request():158] handle_request: internal_messages
+2024-12-15 18:54:43,635 INFO    Thread-12 :4160363 [dir_watcher.py:_on_file_modified():288] file/dir modified: /oscar/home/mali37/final-project-MuhiimAli/wandb/run-20241215_184629-zqe7fw5r/files/output.log
+2024-12-15 18:54:43,645 ERROR   disk      :4160363 [interfaces.py:monitor():142] Failed to sample metric: 'NoneType' object has no attribute 'read_bytes'
+2024-12-15 18:54:43,645 ERROR   disk      :4160363 [interfaces.py:monitor():142] Failed to sample metric: 'NoneType' object has no attribute 'write_bytes'
+2024-12-15 18:54:44,297 DEBUG   HandlerThread:4160363 [handler.py:handle_request():158] handle_request: internal_messages
+2024-12-15 18:54:45,298 DEBUG   HandlerThread:4160363 [handler.py:handle_request():158] handle_request: internal_messages

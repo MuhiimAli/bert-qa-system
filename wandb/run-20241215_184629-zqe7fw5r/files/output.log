@@ -169,3 +169,62 @@ You should probably TRAIN this model on a down-stream task to be able to use it 
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Loss: 3.8665: 100%|██████████| 3483/3483 [06:05<00:00,  9.53it/s]
+
+
+
+Loss: 2.8788, F1: 0.4939,MM: 0, OP: 88:  87%|████████▋ | 190/218 [00:06<00:00, 29.34it/s]
+==================================================
+Epoch 1 Results:
+==================================================
+Loss Metrics:
+Train Loss: 3.8665
+Val Loss: 2.6484
+Answer Prediction Metrics:
+Precision: 0.6638
+Recall: 0.3857
+F1: 0.4879
+Detailed Token Statistics:
+True Positives: 2312
+False Positives: 1171
+False Negatives: 3682
+Overprediction Analysis:
+Total Questions: 1743
+Overprediction Cases: 88
+Overprediction Percentage: 5.0%
+Average Predicted Length: 9.5 tokens
+Average True Length: 3.5 tokens
+Average Extra Tokens: 6.1
+Loss: 2.6484, F1: 0.4879,MM: 0, OP: 88: 100%|██████████| 218/218 [00:07<00:00, 28.64it/s]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
