@@ -151,6 +151,8 @@ def get_qa_dataset(
         tokenizer=tokenizer,
         max_seq_length=args.max_seq_length
     )
+    g = torch.Generator()
+    g.manual_seed(args.seed)
     
     # Setup sampler for distributed training
     # sampler = DistributedSampler(dataset) if args.distributed and is_training else None
@@ -165,6 +167,7 @@ def get_qa_dataset(
         num_workers=args.num_workers,
         pin_memory=True,
         sampler=sampler,
+        generator=g,
         drop_last=is_training
     )
     

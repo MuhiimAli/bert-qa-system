@@ -66,10 +66,11 @@ def main():
             # Initialize sweep
             sweep_id = wandb.sweep(
                 sweep_configuration,
-                project="nq-qa-bert5"
+                project="Please let's call it final"
             )
             
             def run_sweep():
+                set_seed(args.seed)
                 with wandb.init() as run:
                     return train_with_params(args, use_wandb=True)
             

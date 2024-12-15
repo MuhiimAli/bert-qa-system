@@ -1,0 +1,423 @@
+Training examples: 27866
+Number of training batches: 3483
+Evaluation examples: 1743
+Number of evaluation batches: 218
+Epoch 1/2
+Some weights of DistilBertForQA were not initialized from the model checkpoint at distilbert-base-uncased and are newly initialized: ['distilbert.qa_end.bias', 'distilbert.qa_end.weight', 'distilbert.qa_start.bias', 'distilbert.qa_start.weight', 'distilbert.qa_type.bias', 'distilbert.qa_type.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Loss: 3.8580: 100%|██████████| 3483/3483 [06:03<00:00,  9.58it/s]
+
+
+
+Loss: 2.8326, F1: 0.5198,MM: 0, OP: 123:  84%|████████▍ | 184/218 [00:06<00:01, 29.44it/s]
+==================================================
+Epoch 1 Results:
+==================================================
+Loss Metrics:
+Train Loss: 3.8580
+Val Loss: 2.6627
+Answer Prediction Metrics:
+Precision: 0.5753
+Recall: 0.4484
+F1: 0.5040
+Detailed Token Statistics:
+True Positives: 2726
+False Positives: 2012
+False Negatives: 3354
+Overprediction Analysis:
+Total Questions: 1743
+Overprediction Cases: 123
+Overprediction Percentage: 7.1%
+Average Predicted Length: 10.3 tokens
+Average True Length: 3.9 tokens
+Average Extra Tokens: 6.4
+Loss: 2.6627, F1: 0.5040,MM: 0, OP: 123: 100%|██████████| 218/218 [00:07<00:00, 28.77it/s]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Loss: 1.9422: 100%|██████████| 3483/3483 [06:06<00:00,  9.50it/s]
+
+
+
+Loss: 2.8042, F1: 0.5392,MM: 0, OP: 115:  83%|████████▎ | 181/218 [00:06<00:01, 29.31it/s]
+==================================================
+Epoch 2 Results:
+==================================================
+Loss Metrics:
+Train Loss: 1.9422
+Val Loss: 2.6003
+Answer Prediction Metrics:
+Precision: 0.6024
+Recall: 0.4639
+F1: 0.5242
+Detailed Token Statistics:
+True Positives: 2897
+False Positives: 1912
+False Negatives: 3348
+Overprediction Analysis:
+Total Questions: 1743
+Overprediction Cases: 115
+Overprediction Percentage: 6.6%
+Average Predicted Length: 9.9 tokens
+Average True Length: 3.5 tokens
+
+Loss: 2.6003, F1: 0.5242,MM: 0, OP: 115: 100%|██████████| 218/218 [00:07<00:00, 28.60it/s]

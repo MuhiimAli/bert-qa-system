@@ -5,19 +5,20 @@ sweep_configuration = {
         'goal': 'maximize'   
     },
     'parameters': {
-        'batch_size': {
-            'values': [8]
-        },
         'learning_rate': {
             'distribution': 'uniform',
-            'min': 3e-5,
-            'max': 4e-5
-        },
-        'num_epochs': {
-            'values': [2,3]
+            # 'min': 3.0e-5,
+            # 'max': 3.33e-5
+
+            # 'min': 3.34e-5,
+            # 'max': 3.66e-5
+
+
+            'min': 3.67e-5,
+            'max': 4.0e-5
         },
         'seed': {
-            'value': 42  # Fixed seed for reproducibility
+            'value': 42
         }
     }
 }

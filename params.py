@@ -42,7 +42,7 @@ def parse_args():
     train_args.add_argument(
         "--learning_rate", 
         type=float, 
-        default=0.00003106031518260137,
+        default=4e-5,
         help="Learning rate for optimization"
     )
     train_args.add_argument(

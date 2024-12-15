@@ -1,9 +1,9 @@
 #!/bin/bash
 
-#SBATCH -n 10
-#SBATCH --mem=180g
-#SBATCH -t 48:00:00
-#SBATCH --partition=gpu
+#SBATCH -n 8
+#SBATCH --mem=82g
+#SBATCH -t 24:00:00
+#SBATCH --partition=gpu-he
 #SBATCH --gres=gpu:1
 #SBATCH -o my-output-%j.out
 #SBATCH --job-name=nq_qa_train
