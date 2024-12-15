@@ -1,0 +1,36 @@
+2024-12-13 00:27:24,548 INFO    Thread-3  :2700874 [wandb_setup.py:_flush():76] Current SDK version is 0.17.4
+2024-12-13 00:27:24,548 INFO    Thread-3  :2700874 [wandb_setup.py:_flush():76] Configure stats pid to 2700874
+2024-12-13 00:27:24,548 INFO    Thread-3  :2700874 [wandb_setup.py:_flush():76] Loading settings from /users/mali37/.config/wandb/settings
+2024-12-13 00:27:24,548 INFO    Thread-3  :2700874 [wandb_setup.py:_flush():76] Loading settings from /oscar/home/mali37/bert-qa/wandb/settings
+2024-12-13 00:27:24,550 INFO    Thread-3  :2700874 [wandb_setup.py:_flush():76] Loading settings from environment variables: {'project': 'nq-qa-bert2', 'entity': 'CS1460', 'root_dir': '/oscar/home/mali37/bert-qa', 'sweep_id': '0exods6j', 'run_id': '4xcp9dvs', 'sweep_param_path': '/oscar/home/mali37/bert-qa/wandb/sweep-0exods6j/config-4xcp9dvs.yaml'}
+2024-12-13 00:27:24,550 INFO    Thread-3  :2700874 [wandb_setup.py:_flush():76] Applying setup settings: {'_disable_service': False}
+2024-12-13 00:27:24,550 INFO    Thread-3  :2700874 [wandb_setup.py:_flush():76] Inferring run settings from compute environment: {'program_relpath': 'main.py', 'program_abspath': '/oscar/home/mali37/bert-qa/main.py', 'program': '/oscar/home/mali37/bert-qa/main.py'}
+2024-12-13 00:27:24,551 INFO    Thread-3  :2700874 [wandb_setup.py:_flush():76] Applying login settings: {}
+2024-12-13 00:27:24,551 INFO    Thread-3  :2700874 [wandb_init.py:_log_setup():529] Logging user logs to /oscar/home/mali37/bert-qa/wandb/run-20241213_002724-4xcp9dvs/logs/debug.log
+2024-12-13 00:27:24,553 INFO    Thread-3  :2700874 [wandb_init.py:_log_setup():530] Logging internal logs to /oscar/home/mali37/bert-qa/wandb/run-20241213_002724-4xcp9dvs/logs/debug-internal.log
+2024-12-13 00:27:24,554 INFO    Thread-3  :2700874 [wandb_init.py:init():569] calling init triggers
+2024-12-13 00:27:24,554 INFO    Thread-3  :2700874 [wandb_init.py:init():576] wandb.init called with sweep_config: {'batch_size': 8, 'learning_rate': 3.3247067870530914e-05, 'num_epochs': 3}
+config: {}
+2024-12-13 00:27:24,556 INFO    Thread-3  :2700874 [wandb_init.py:init():619] starting backend
+2024-12-13 00:27:24,556 INFO    Thread-3  :2700874 [wandb_init.py:init():623] setting up manager
+2024-12-13 00:27:24,564 INFO    Thread-3  :2700874 [backend.py:_multiprocessing_setup():105] multiprocessing start_methods=fork,spawn,forkserver, using: spawn
+2024-12-13 00:27:24,570 INFO    Thread-3  :2700874 [wandb_init.py:init():631] backend started and connected
+2024-12-13 00:27:24,584 INFO    Thread-3  :2700874 [wandb_run.py:_config_callback():1382] config_cb None None {'batch_size': 8, 'learning_rate': 3.3247067870530914e-05, 'num_epochs': 3}
+2024-12-13 00:27:24,585 INFO    Thread-3  :2700874 [wandb_init.py:init():720] updated telemetry
+2024-12-13 00:27:24,605 INFO    Thread-3  :2700874 [wandb_init.py:init():753] communicating run to backend with 90.0 second timeout
+2024-12-13 00:27:24,788 INFO    Thread-3  :2700874 [wandb_run.py:_on_init():2402] communicating current version
+2024-12-13 00:27:24,866 INFO    Thread-3  :2700874 [wandb_run.py:_on_init():2411] got version response upgrade_message: "wandb version 0.19.1 is available!  To upgrade, please run:\n $ pip install wandb --upgrade"
+
+2024-12-13 00:27:24,866 INFO    Thread-3  :2700874 [wandb_init.py:init():804] starting run threads in backend
+2024-12-13 00:27:25,601 INFO    Thread-3  :2700874 [wandb_run.py:_console_start():2380] atexit reg
+2024-12-13 00:27:25,601 INFO    Thread-3  :2700874 [wandb_run.py:_redirect():2235] redirect: wrap_raw
+2024-12-13 00:27:25,601 INFO    Thread-3  :2700874 [wandb_run.py:_redirect():2300] Wrapping output streams.
+2024-12-13 00:27:25,601 INFO    Thread-3  :2700874 [wandb_run.py:_redirect():2325] Redirects installed.
+2024-12-13 00:27:25,608 INFO    Thread-3  :2700874 [wandb_init.py:init():847] run started, returning control to user process
+2024-12-13 00:53:34,462 INFO    Thread-3  :2700874 [wandb_run.py:_finish():2109] finishing run CS1460/nq-qa-bert2/4xcp9dvs
+2024-12-13 00:53:34,463 INFO    Thread-3  :2700874 [wandb_run.py:_atexit_cleanup():2349] got exitcode: 0
+2024-12-13 00:53:34,463 INFO    Thread-3  :2700874 [wandb_run.py:_restore():2332] restore
+2024-12-13 00:53:34,463 INFO    Thread-3  :2700874 [wandb_run.py:_restore():2338] restore done
+2024-12-13 00:53:39,359 INFO    Thread-3  :2700874 [wandb_run.py:_footer_history_summary_info():3991] rendering history
+2024-12-13 00:53:39,359 INFO    Thread-3  :2700874 [wandb_run.py:_footer_history_summary_info():4023] rendering summary
+2024-12-13 00:53:39,368 INFO    Thread-3  :2700874 [wandb_run.py:_footer_sync_info():3950] logging synced files

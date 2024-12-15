@@ -1,0 +1,44 @@
+Training examples: 27847
+Number of training batches: 1740
+Evaluation examples: 1743
+Number of evaluation batches: 109
+Some weights of DistilBertForQA were not initialized from the model checkpoint at distilbert-base-uncased and are newly initialized: ['distilbert.qa_outputs.bias', 'distilbert.qa_outputs.weight', 'distilbert.qa_type.bias', 'distilbert.qa_type.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+Training:   0%|          | 0/1740 [00:00<?, ?it/s]
+Training:   0%|          | 0/1740 [00:01<?, ?it/s]
+Traceback (most recent call last):
+  File "/oscar/home/mali37/bert-qa/main.py", line 72, in run_sweep
+    return train_with_params(args, use_wandb=True)
+  File "/oscar/home/mali37/bert-qa/main.py", line 48, in train_with_params
+    model = train(args, data, tokenizer, use_wandb)
+  File "/oscar/home/mali37/bert-qa/train.py", line 267, in train
+    train_loss = train_one_epoch(
+  File "/oscar/home/mali37/bert-qa/train.py", line 206, in train_one_epoch
+    outputs = model(
+  File "/users/mali37/.local/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1736, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/users/mali37/.local/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1747, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/oscar/home/mali37/bert-qa/train.py", line 32, in forward
+    outputs = super().forward(
+  File "/users/mali37/.local/lib/python3.9/site-packages/transformers/models/distilbert/modeling_distilbert.py", line 811, in forward
+    return self.transformer(
+  File "/users/mali37/.local/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1736, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/users/mali37/.local/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1747, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/users/mali37/.local/lib/python3.9/site-packages/transformers/models/distilbert/modeling_distilbert.py", line 572, in forward
+    layer_outputs = layer_module(
+  File "/users/mali37/.local/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1736, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/users/mali37/.local/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1747, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/users/mali37/.local/lib/python3.9/site-packages/transformers/models/distilbert/modeling_distilbert.py", line 498, in forward
+    sa_output = self.attention(
+  File "/users/mali37/.local/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1736, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/users/mali37/.local/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1747, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/users/mali37/.local/lib/python3.9/site-packages/transformers/models/distilbert/modeling_distilbert.py", line 228, in forward
+    scores = torch.matmul(q, k.transpose(2, 3))  # (bs, n_heads, q_length, k_length)
+torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 192.00 MiB. GPU 0 has a total capacity of 23.64 GiB of which 51.06 MiB is free. Process 2460814 has 22.93 GiB memory in use. Including non-PyTorch memory, this process has 658.00 MiB memory in use. Of the allocated memory 436.56 MiB is allocated by PyTorch, and 23.44 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)

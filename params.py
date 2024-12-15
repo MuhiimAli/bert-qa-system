@@ -54,13 +54,13 @@ def parse_args():
     train_args.add_argument(
         "--learning_rate", 
         type=float, 
-        default=3e-5,
+        default=0.00003604942448774387,
         help="Learning rate for optimization"
     )
     train_args.add_argument(
         "--num_epochs", 
         type=int, 
-        default=3,
+        default=2,
         help="Number of training epochs"
     )
     train_args.add_argument(
@@ -72,7 +72,7 @@ def parse_args():
     train_args.add_argument(
         "--weight_decay", 
         type=float, 
-        default=0.002,
+        default=0,
         help="Weight decay for AdamW optimizer"
     )
     train_args.add_argument(

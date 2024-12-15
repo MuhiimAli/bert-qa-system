@@ -34,6 +34,15 @@ def train_with_params(args, use_wandb=False):
     
     # Load data
     data = get_data(args, tokenizer)
+    if 'train' in data:
+        num_train_examples = len(data['train'].dataloader.dataset)
+        print(f"Training examples: {num_train_examples}")
+        print(f"Number of training batches: {len(data['train'].dataloader)}")
+    
+    if 'eval' in data:
+        num_eval_examples = len(data['eval'].dataloader.dataset)
+        print(f"Evaluation examples: {num_eval_examples}")
+        print(f"Number of evaluation batches: {len(data['eval'].dataloader)}")
     
     # Train model
     model = train(args, data, tokenizer, use_wandb)
@@ -55,7 +64,7 @@ def main():
             # Initialize sweep
             sweep_id = wandb.sweep(
                 sweep_configuration,
-                project="nq-qa-bert"
+                project="nq-qa-bert5"
             )
             
             def run_sweep():

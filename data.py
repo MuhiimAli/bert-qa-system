@@ -1,3 +1,6 @@
+"""
+This is where we load and preprocess the data
+"""
 import torch
 from torch.utils.data import Dataset
 from dataclasses import dataclass
@@ -8,8 +11,6 @@ from torch.utils.data import Dataset, DataLoader, DistributedSampler
 from typing import Dict, Optional
 
 class OrderedNQDataset(Dataset):
-    """Dataset class for Natural Questions with ordered short/no-answer examples."""
-    
     def __init__(
         self,
         data_path: str,
@@ -24,19 +25,21 @@ class OrderedNQDataset(Dataset):
         """Load and process all examples from JSON file."""
         with open(data_path, 'r') as f:
             data = json.load(f)
+            # data = data[:50]
             
         features = []
         for item in data:
             question = item['questions'][0]['input_text']
+            #not sure if this will ever happen
+            if len(item['questions']) > 1:
+                print(len(item['questions']))
             context = item['contexts']
             
-            # Tokenize question first to calculate space for context
-            question_tokens = self.tokenizer.tokenize(question)
-            max_context_length = self.max_seq_length - len(question_tokens) - 3  # [CLS], [SEP], [SEP]
-            
+            # Initialize positions
             start_position = 0
             end_position = 0
             answer_type = 0  # Default to no_answer (0)
+            answer_text = ""  # Initialize answer_text
             
             if len(item.get('answers', [])) > 0:
                 answer = item['answers'][0]
@@ -44,6 +47,7 @@ class OrderedNQDataset(Dataset):
                 
                 if answer['input_text'] == 'short':
                     # Get the answer text and tokenize
+                    question_tokens = self.tokenizer.tokenize(question)
                     answer_text = context[answer['span_start']:answer['span_end']]
                     
                     # Get context before answer and tokenize
@@ -56,16 +60,13 @@ class OrderedNQDataset(Dataset):
                     # Calculate positions including special tokens
                     # [CLS] question [SEP] context [SEP]
                     start_position = 1 + len(question_tokens) + 1 + len(context_before_tokens)
-                    end_position = start_position + len(answer_tokens) - 1
+                    end_position = start_position + len(answer_tokens)
                     
-                    # Ensure positions are within sequence length
-                    if end_position >= self.max_seq_length:
+                    # If start position or end position exceeds max sequence length, treat as no_answer
+                    if start_position >= self.max_seq_length or end_position >= self.max_seq_length:
                         start_position = 0
                         end_position = 0
-                        answer_type = 0 
-                else: 
-                    start_position = 0
-                    end_position = 0
+                        answer_type = 0
             
             # Encode full sequence
             encoded = self.tokenizer(
@@ -76,6 +77,26 @@ class OrderedNQDataset(Dataset):
                 max_length=self.max_seq_length,
                 return_tensors=None
             )
+
+            # Only verify answer span if we have an answer
+            if answer_text:
+                predicted_answer = self.tokenizer.decode(
+                    encoded['input_ids'][start_position:end_position],
+                    skip_special_tokens=True,
+                    clean_up_tokenization_spaces=True
+                )
+                actual_answer = self.tokenizer.decode(
+                    self.tokenizer(text=answer_text)['input_ids'],
+                    skip_special_tokens=True,
+                    clean_up_tokenization_spaces=True
+                )
+                if answer_text:
+                    # Normalize both predicted and actual answers
+                    predicted_answer = predicted_answer.lower().strip()
+                    actual_answer = actual_answer.lower().strip()
+                    # Check if either is contained in the other
+                    if (predicted_answer not in actual_answer) and (actual_answer not in predicted_answer):
+                        continue
             
             feature = {
                 'input_ids': encoded['input_ids'],
@@ -83,16 +104,13 @@ class OrderedNQDataset(Dataset):
                 'start_position': start_position,
                 'end_position': end_position,
                 'answer_type': answer_type,
-                'example_id': item['id']
             }
             
-            # Verify positions are valid
-            if start_position >= self.max_seq_length or end_position >= self.max_seq_length:
-                start_position = 0
-                end_position = 0
+            # Final validation of positions
+            if start_position >= self.max_seq_length or end_position > self.max_seq_length:
+                feature['start_position'] = 0
+                feature['end_position'] = 0
                 feature['answer_type'] = 0
-                feature['start_position'] = start_position
-                feature['end_position'] = end_position
             
             features.append(feature)
         
@@ -110,7 +128,6 @@ class OrderedNQDataset(Dataset):
             'start_position': torch.tensor(feature['start_position'], dtype=torch.long),
             'end_position': torch.tensor(feature['end_position'], dtype=torch.long),
             'answer_type': torch.tensor(feature['answer_type'], dtype=torch.long),
-            'example_id': feature['example_id']
         }
         
 @dataclass

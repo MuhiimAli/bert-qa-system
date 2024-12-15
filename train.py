@@ -1,3 +1,6 @@
+"""
+This class is responsible for training and evaluating the model
+"""
 import torch
 from torch.utils.data import DataLoader
 from transformers import (
@@ -18,11 +21,12 @@ class DistilBertForQA(DistilBertModel):
         super().__init__(config)
         
         # Add dropout
-        self.dropout = nn.Dropout(0.1)
+        # self.dropout = nn.Dropout(0.1)
         
-        # QA output layers
-        self.qa_outputs = torch.nn.Linear(config.hidden_size, 2)  # 2 for start/end
-        self.qa_type = torch.nn.Linear(config.hidden_size, 2)     # 2 for no-answer/short
+        #a single linear layer for each output type
+        self.qa_start = torch.nn.Linear(config.hidden_size, 1)  # Single output for start position
+        self.qa_end = torch.nn.Linear(config.hidden_size, 1)    # Single output for end position
+        self.qa_type = torch.nn.Linear(config.hidden_size, 2)   # Binary classification for answer type
         
         # Initialize weights
         self.init_weights()
@@ -37,16 +41,14 @@ class DistilBertForQA(DistilBertModel):
         hidden_states = outputs.last_hidden_state
         
         # Apply dropout to hidden states
-        hidden_states = self.dropout(hidden_states)
+        # hidden_states = self.dropout(hidden_states)
         
-        # Get logits for start/end
-        span_logits = self.qa_outputs(hidden_states)
-        start_logits, end_logits = span_logits.split(1, dim=-1)
-        start_logits = start_logits.squeeze(-1)
-        end_logits = end_logits.squeeze(-1)
+        # Get start and end logits directly from single linear layers
+        start_logits = self.qa_start(hidden_states).squeeze(-1)  # [batch_size, seq_len]
+        end_logits = self.qa_end(hidden_states).squeeze(-1)     # [batch_size, seq_len]
         
         # Get answer type logits from [CLS] token
-        type_logits = self.qa_type(hidden_states[:, 0, :])
+        type_logits = self.qa_type(hidden_states[:, 0, :])      # [batch_size, 2]
         
         return start_logits, end_logits, type_logits
 
@@ -86,6 +88,7 @@ def evaluate_model(model: DistilBertModel, dataloader: DataLoader,
     num_batches = 0
     exact_matches = 0
     total_questions = 0
+    mismatch = 0
     
     with torch.no_grad():
         progress_bar = tqdm(dataloader, desc="Evaluating")
@@ -127,29 +130,41 @@ def evaluate_model(model: DistilBertModel, dataloader: DataLoader,
                 pred_start = start_preds[i].item()
                 pred_end = end_preds[i].item()
                 # pred_end = max(pred_start, pred_end)
+                if pred_end < pred_start:
+                    continue
+                if batch['answer_type'][i] == 1 and (pred_start == 0 and pred_end == 0):
+                    # Model incorrectly predicted no-answer for an answerable question
+                    mismatch +=1
+                    print(f"True answer: {true_text}")
+                    print(f"Type logits: {torch.softmax(type_logits[i], dim=0)}")
+                    continue
            
 
                 true_start = batch['start_position'][i].item()
                 true_end = batch['end_position'][i].item()
                 
-                # Skip invalid predictions where end comes before start
-                if pred_end < pred_start:
-                    continue
+       
                 
                 # Get token IDs for both spans
                 input_ids = batch['input_ids'][i]
+
+                # Get token sequences
+                pred_tokens = input_ids[pred_start:pred_end].tolist()
+                true_tokens = input_ids[true_start:true_end].tolist()
                 
-                # Convert spans to token ID counts (using Counter for proper frequency tracking)
-                
-                
-                pred_tokens = Counter(input_ids[pred_start:pred_end + 1].tolist())
-                true_tokens = Counter(input_ids[true_start:true_end + 1].tolist())
+                # Create frequency distributions
+                pred_counter = Counter(pred_tokens)
+                true_counter = Counter(true_tokens)
+
+                #for debugging purposes only
+                pred_text = tokenizer.decode(pred_tokens, skip_special_tokens=True, clean_up_tokenization_spaces=True)
+                true_text = tokenizer.decode(true_tokens, skip_special_tokens=True, clean_up_tokenization_spaces=True)
                 
                 
                 # Calculate overlap considering token frequencies
-                true_pos = sum((pred_tokens & true_tokens).values())  # Intersection with frequencies
-                false_pos = sum((pred_tokens - true_tokens).values())  # Tokens over-predicted
-                false_neg = sum((true_tokens - pred_tokens).values())  # Tokens under-predicted
+                true_pos = sum((pred_counter & true_counter).values())  # Intersection with frequencies
+                false_pos = sum((pred_counter - true_counter).values())  # Tokens over-predicted
+                false_neg = sum((true_counter - pred_counter).values())  # Tokens under-predicted
                 
                 # Check for exact match (both token IDs and their frequencies must match)
                 if pred_tokens == true_tokens:
@@ -167,7 +182,7 @@ def evaluate_model(model: DistilBertModel, dataloader: DataLoader,
             exact_match = exact_matches / total_questions if total_questions > 0 else 0
             
             progress_bar.set_description(
-                f"Loss: {total_loss/num_batches:.4f}, F1: {f1:.4f}, EM: {exact_match:.4f}"
+                f"Loss: {total_loss/num_batches:.4f}, F1: {f1:.4f}, EM: {exact_match:.4f}, MM: {mismatch:.4f}"
             )
     
     precision, recall, f1 = compute_metrics(

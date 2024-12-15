@@ -1,0 +1,6 @@
+Traceback (most recent call last):
+  File "/oscar/home/mali37/bert-qa/main.py", line 14, in <module>
+    from sweep_config import sweep_configuration
+  File "/oscar/home/mali37/bert-qa/sweep_config.py", line 13, in <module>
+    'min': np.log(3e-5),
+NameError: name 'np' is not defined

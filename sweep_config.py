@@ -1,12 +1,12 @@
 sweep_configuration = {
     'method': 'bayes',
     'metric': {
-        'name': 'val_f1',
+        'name': 'val_precision',
         'goal': 'maximize'   
     },
     'parameters': {
         'batch_size': {
-            'values': [4, 8, 16, 32, 64]
+            'values': [8,64]
         },
         'learning_rate': {
             'distribution': 'uniform',
@@ -14,7 +14,7 @@ sweep_configuration = {
             'max': 4e-5
         },
         'num_epochs': {
-            'values': [1, 2,3]
+            'values': [2,3]
         }
     }
 }
