@@ -45,3 +45,21 @@ The model is built on top of DistilBERT and has been adapted for question answer
 3. Answer Type: Linear layer to classify the type of answer
 
 The model takes a question-answer pair as input, processes it through DistilBERT, and then uses these three linear layers to make predictions. 
+
+## Hyperparameters
+
+Best performing configuration:
+- Learning rate: 0.00003882259533696199
+- Number of epochs: 2
+- Number of workers: 4
+- Random seed: 42
+- Weight decay: 0
+
+## Model Performance
+
+Final metrics achieved:
+- Precision: 0.6131
+- Recall: 0.4786
+- F1: 0.5376
+
+For detailed training logs and complete output, refer to the output.log and output.log1 files generated during training.

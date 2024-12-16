@@ -283,7 +283,7 @@ def train(args, data, tokenizer, use_wandb=False):
             criterion=criterion,
             tokenizer=tokenizer,
             device=device, 
-            max_answer_length=30
+            max_answer_length=100000000000
         )
         
         # Print detailed metrics
@@ -299,21 +299,21 @@ def train(args, data, tokenizer, use_wandb=False):
         print(f"Recall: {eval_metrics['recall']:.4f}")
         print(f"F1: {eval_metrics['f1']:.4f}")
         
-        # print("\nDetailed Token Statistics:")
-        # print(f"True Positives: {eval_metrics['true_positives']}")
-        # print(f"False Positives: {eval_metrics['false_positives']}")
-        # print(f"False Negatives: {eval_metrics['false_negatives']}")
+        print("\nDetailed Token Statistics:")
+        print(f"True Positives: {eval_metrics['true_positives']}")
+        print(f"False Positives: {eval_metrics['false_positives']}")
+        print(f"False Negatives: {eval_metrics['false_negatives']}")
         
-        # print("\nOverprediction Analysis:")
-        # print(f"Total Questions: {eval_metrics['total_questions']}")
-        # print(f"Overprediction Cases: {eval_metrics['overprediction_cases']}")
-        # if eval_metrics['overprediction_cases'] > 0:
-        #     overpred_percentage = (eval_metrics['overprediction_cases'] / eval_metrics['total_questions']) * 100
-        #     print(f"Overprediction Percentage: {overpred_percentage:.1f}%")
-        #     print(f"Average Predicted Length: {eval_metrics['avg_overprediction_length']:.1f} tokens")
-        #     print(f"Average True Length: {eval_metrics['avg_true_length']:.1f} tokens")
-        #     avg_extra = eval_metrics['avg_overprediction_length'] - eval_metrics['avg_true_length']
-        #     print(f"Average Extra Tokens: {avg_extra:.1f}")
+        print("\nOverprediction Analysis:")
+        print(f"Total Questions: {eval_metrics['total_questions']}")
+        print(f"Overprediction Cases: {eval_metrics['overprediction_cases']}")
+        if eval_metrics['overprediction_cases'] > 0:
+            overpred_percentage = (eval_metrics['overprediction_cases'] / eval_metrics['total_questions']) * 100
+            print(f"Overprediction Percentage: {overpred_percentage:.1f}%")
+            print(f"Average Predicted Length: {eval_metrics['avg_overprediction_length']:.1f} tokens")
+            print(f"Average True Length: {eval_metrics['avg_true_length']:.1f} tokens")
+            avg_extra = eval_metrics['avg_overprediction_length'] - eval_metrics['avg_true_length']
+            print(f"Average Extra Tokens: {avg_extra:.1f}")
         
         if use_wandb:
             wandb.log({
