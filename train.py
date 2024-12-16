@@ -19,10 +19,7 @@ import wandb
 class DistilBertForQA(DistilBertModel):
     def __init__(self, config):
         super().__init__(config)
-        
-        # Add dropout
-        # self.dropout = nn.Dropout(0.1)
-        
+
         #a single linear layer for each output type
         self.qa_start = torch.nn.Linear(config.hidden_size, 1)  # Single output for start position
         self.qa_end = torch.nn.Linear(config.hidden_size, 1)    # Single output for end position
@@ -40,8 +37,7 @@ class DistilBertForQA(DistilBertModel):
         
         hidden_states = outputs.last_hidden_state
         
-        # Apply dropout to hidden states
-        # hidden_states = self.dropout(hidden_states)
+  
         
         # Get start and end logits directly from single linear layers
         start_logits = self.qa_start(hidden_states).squeeze(-1)  # [batch_size, seq_len]
@@ -303,21 +299,21 @@ def train(args, data, tokenizer, use_wandb=False):
         print(f"Recall: {eval_metrics['recall']:.4f}")
         print(f"F1: {eval_metrics['f1']:.4f}")
         
-        print("\nDetailed Token Statistics:")
-        print(f"True Positives: {eval_metrics['true_positives']}")
-        print(f"False Positives: {eval_metrics['false_positives']}")
-        print(f"False Negatives: {eval_metrics['false_negatives']}")
+        # print("\nDetailed Token Statistics:")
+        # print(f"True Positives: {eval_metrics['true_positives']}")
+        # print(f"False Positives: {eval_metrics['false_positives']}")
+        # print(f"False Negatives: {eval_metrics['false_negatives']}")
         
-        print("\nOverprediction Analysis:")
-        print(f"Total Questions: {eval_metrics['total_questions']}")
-        print(f"Overprediction Cases: {eval_metrics['overprediction_cases']}")
-        if eval_metrics['overprediction_cases'] > 0:
-            overpred_percentage = (eval_metrics['overprediction_cases'] / eval_metrics['total_questions']) * 100
-            print(f"Overprediction Percentage: {overpred_percentage:.1f}%")
-            print(f"Average Predicted Length: {eval_metrics['avg_overprediction_length']:.1f} tokens")
-            print(f"Average True Length: {eval_metrics['avg_true_length']:.1f} tokens")
-            avg_extra = eval_metrics['avg_overprediction_length'] - eval_metrics['avg_true_length']
-            print(f"Average Extra Tokens: {avg_extra:.1f}")
+        # print("\nOverprediction Analysis:")
+        # print(f"Total Questions: {eval_metrics['total_questions']}")
+        # print(f"Overprediction Cases: {eval_metrics['overprediction_cases']}")
+        # if eval_metrics['overprediction_cases'] > 0:
+        #     overpred_percentage = (eval_metrics['overprediction_cases'] / eval_metrics['total_questions']) * 100
+        #     print(f"Overprediction Percentage: {overpred_percentage:.1f}%")
+        #     print(f"Average Predicted Length: {eval_metrics['avg_overprediction_length']:.1f} tokens")
+        #     print(f"Average True Length: {eval_metrics['avg_true_length']:.1f} tokens")
+        #     avg_extra = eval_metrics['avg_overprediction_length'] - eval_metrics['avg_true_length']
+        #     print(f"Average Extra Tokens: {avg_extra:.1f}")
         
         if use_wandb:
             wandb.log({

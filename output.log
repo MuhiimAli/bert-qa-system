@@ -1,0 +1,52 @@
+
+==================================================
+Training Parameters:
+==================================================
+batch_size: 8
+eval_data_path: /users/mali37/scratch/bert_qa_data/all_dev.json
+learning_rate: 3.882259533696199e-05
+max_seq_length: 512
+num_epochs: 2
+num_workers: 4
+output_dir: outputs
+seed: 42
+sweep: False
+train_data_path: /users/mali37/scratch/bert_qa_data/all_train.json
+use_wandb: False
+weight_decay: 0
+==================================================
+
+Training examples: 27866
+Number of training batches: 3483
+Evaluation examples: 1743
+Number of evaluation batches: 218
+
+Epoch 1/2
+
+==================================================
+Epoch 1 Results:
+==================================================
+
+Loss Metrics:
+Train Loss: 3.8564
+Val Loss: 2.6613
+
+Answer Prediction Metrics:
+Precision: 0.5787
+Recall: 0.3790
+F1: 0.4581
+
+Epoch 2/2
+
+==================================================
+Epoch 2 Results:
+==================================================
+
+Loss Metrics:
+Train Loss: 1.9199
+Val Loss: 2.6169
+
+Answer Prediction Metrics:
+Precision: 0.6131
+Recall: 0.4786
+F1: 0.5376

@@ -30,6 +30,12 @@ def train_with_params(args, use_wandb=False):
     if use_wandb:
         
         args.__dict__.update(wandb.config)
+    print("\n" + "="*50)
+    print("Training Parameters:")
+    print("="*50)
+    for arg, value in sorted(vars(args).items()):
+        print(f"{arg}: {value}")
+    print("="*50 + "\n")
         
     
     set_seed(args.seed)

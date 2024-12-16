@@ -30,8 +30,7 @@ class NQLoss(nn.Module):
         
         batch_size = start_logits.size(0)
         
-        # Get the probabilities corresponding to the correct positions/types
-        # gather: selects values from tensor using indices
+       
         start_selected_probs = start_probs[torch.arange(batch_size), start_positions]  # (batch_size,)
         end_selected_probs = end_probs[torch.arange(batch_size), end_positions]        # (batch_size,)
         type_selected_probs = type_probs[torch.arange(batch_size), answer_types]       # (batch_size,)
