@@ -3,6 +3,10 @@
  Our project focuses on fine-tuning BERT for a Question Answering (QA) task. The model takes a question and a context as input and predicts the token span of the answer within the context. If no answer is present, it predicts a span pointing to the [CLS] token. We followed the paper "A BERT Baseline for the Natural Questions", implementing the loss function from Section 3 and data preprocessing techniques from Section 2. While the paper covers four answer types, our dataset is simplified to two: no answer and short answer.
 We evaluate the model using three metrics: precision, recall, and F1 score. Our goal is to replicate the Short Answer Dev performances reported in the paper.
 
+## Video link
+https://drive.google.com/file/d/1cp4kLwkKptrjignv1vbWNM4vSP-3LHMl/view?usp=drive_link
+
+
 ## Set up
 First, install the required packages:
 

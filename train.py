@@ -283,7 +283,7 @@ def train(args, data, tokenizer, use_wandb=False):
             criterion=criterion,
             tokenizer=tokenizer,
             device=device, 
-            max_answer_length=100000000000
+            max_answer_length=30
         )
         
         # Print detailed metrics
