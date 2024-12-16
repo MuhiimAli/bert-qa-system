@@ -28,8 +28,11 @@ def set_seed(seed):
 def train_with_params(args, use_wandb=False):
     """Run a single training with given parameters."""
     if use_wandb:
-        # Update args with wandb config
+        
         args.__dict__.update(wandb.config)
+        
+    
+    set_seed(args.seed)
     
     # Initialize tokenizer
     tokenizer = DistilBertTokenizer.from_pretrained('distilbert-base-uncased')
@@ -52,11 +55,8 @@ def train_with_params(args, use_wandb=False):
     return model
 
 def main():
-    # Parse arguments
-    args = parse_args()
     
-    # Set random seed
-    set_seed(args.seed)
+    args = parse_args()
     
     if args.use_wandb:
         # Initialize wandb
@@ -66,12 +66,17 @@ def main():
             # Initialize sweep
             sweep_id = wandb.sweep(
                 sweep_configuration,
-                project="Please let's call it final"
+                project="Please pleaaaaaase let's it be the final one"
             )
             
             def run_sweep():
-                set_seed(args.seed)
                 with wandb.init() as run:
+                    
+                    wandb.config.update({
+                        "torch_version": torch.__version__,
+                        "cuda_version": torch.version.cuda if torch.cuda.is_available() else None,
+                        "gpu_name": torch.cuda.get_device_name(0) if torch.cuda.is_available() else None
+                    })
                     return train_with_params(args, use_wandb=True)
             
             # Start sweep
@@ -81,7 +86,8 @@ def main():
             with wandb.init(project="nq-qa-bert", config=args.__dict__) as run:
                 model = train_with_params(args, use_wandb=True)
     else:
-        # Run without wandb
+        
+        set_seed(args.seed)
         model = train_with_params(args, use_wandb=False)
 
 if __name__ == "__main__":

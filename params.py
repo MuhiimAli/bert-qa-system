@@ -42,7 +42,7 @@ def parse_args():
     train_args.add_argument(
         "--learning_rate", 
         type=float, 
-        default=0.00003786023373447105,
+        default=0.00003882259533696199,
         help="Learning rate for optimization"
     )
     train_args.add_argument(
@@ -72,17 +72,6 @@ def parse_args():
         default=42,
         help="Random seed for reproducibility"
     )
-    sys_args.add_argument(
-        "--distributed", 
-        action="store_true",
-        help="Whether to use distributed training"
-    )
-    sys_args.add_argument(
-        "--local_rank", 
-        type=int, 
-        default=-1,
-        help="Local rank for distributed training"
-    )
     
     # Output arguments
     output_args = parser.add_argument_group('Output configuration')
@@ -91,18 +80,6 @@ def parse_args():
         type=str, 
         default="outputs",
         help="Directory to save model checkpoints and logs"
-    )
-    output_args.add_argument(
-        "--logging_steps", 
-        type=int, 
-        default=100,
-        help="Log training metrics every X updates steps"
-    )
-    output_args.add_argument(
-        "--save_steps", 
-        type=int, 
-        default=1000,
-        help="Save checkpoint every X updates steps"
     )
     
     args = parser.parse_args()

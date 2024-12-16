@@ -3,7 +3,7 @@
 #SBATCH -n 8
 #SBATCH --mem=82g
 #SBATCH -t 24:00:00
-#SBATCH --partition=gpu-he
+#SBATCH --partition=gpu
 #SBATCH --gres=gpu:1
 #SBATCH -o my-output-%j.out
 #SBATCH --job-name=nq_qa_train

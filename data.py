@@ -28,6 +28,7 @@ class OrderedNQDataset(Dataset):
             # data = data[:50]
             
         features = []
+        not_equal = 0
         for item in data:
             question = item['questions'][0]['input_text']
             #not sure if this will ever happen
@@ -40,6 +41,7 @@ class OrderedNQDataset(Dataset):
             end_position = 0
             answer_type = 0  # Default to no_answer (0)
             answer_text = ""  # Initialize answer_text
+            
             
             if len(item.get('answers', [])) > 0:
                 answer = item['answers'][0]
@@ -96,6 +98,7 @@ class OrderedNQDataset(Dataset):
                     actual_answer = actual_answer.lower().strip()
                     # Check if either is contained in the other
                     if (predicted_answer not in actual_answer) and (actual_answer not in predicted_answer):
+                        not_equal +=1
                         continue
             
             feature = {
@@ -113,6 +116,7 @@ class OrderedNQDataset(Dataset):
                 feature['answer_type'] = 0
             
             features.append(feature)
+            
         
         return features
     def __len__(self) -> int:
